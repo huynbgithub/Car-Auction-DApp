@@ -29,20 +29,70 @@ contract Vehicle is Ownable {
 
     struct AuctionRound {
         address auctioneer;
-        int32 auctionRoundPrice;
-        uint32 auctionRoundDate;
+        uint auctionRoundPrice;
+        uint auctionRoundDate;
     }
+    
 
     mapping(uint32 => AuctionRound) private auctionRounds;
     uint32 auctionRoundsSize;
 
-    function getAuctionRounds() external view returns (AuctionRound[] memory) {
+    function getAuctionRounds() public view returns (AuctionRound[] memory) {
         AuctionRound[] memory rounds = new AuctionRound[](auctionRoundsSize);
 
         for (uint32 i = 0; i < auctionRoundsSize; i++) {
             rounds[i] = auctionRounds[i];
         }
         return rounds;
+    }
+
+
+    error AuctionRoundNotFoundException(address auctioneer);
+    function getAuctionRound() internal view returns (uint32, AuctionRound memory){
+        for (uint32 i = 0; i < auctionRoundsSize; i++) {
+            if (auctionRounds[i].auctioneer == msg.sender) {
+                return (i, auctionRounds[i]);
+            }
+        }
+        revert AuctionRoundNotFoundException(msg.sender);
+    }
+
+    modifier hasAuctionRound(){
+        getAuctionRound();
+        _;
+    }
+    
+    function removeAuctionRound(address ) internal  hasAuctionRound(){
+        (uint32 index, ) = getAuctionRound();
+        
+        if (index == auctionRoundsSize - 1){
+        } else {
+            for (uint32 i = index + 1; i < auctionRoundsSize - 1; i++){
+                auctionRounds[i-1] = auctionRounds[i];
+            }
+        }
+            delete auctionRounds[auctionRoundsSize - 1];
+            auctionRoundsSize --;
+    }
+
+    function transfer(address payable _to) public payable {
+        // Call returns a boolean value indicating success or failure.
+        // This is the current recommended method to use.
+        (bool sent, ) = _to.call{value: msg.value}("");
+        require(sent, "Failed to send Klay");
+    }
+
+    function createAuctionRound(uint auctionRoundPrice, uint auctionRoundDate, address payable factoryAddress) public payable {
+        AuctionRound memory auctionRound = AuctionRound(msg.sender, auctionRoundPrice, auctionRoundDate);
+        
+        auctionRounds[auctionRoundsSize] = auctionRound;
+        auctionRoundsSize++;   
+
+        transfer(factoryAddress);
+    }
+
+    function returnFundsToAuctioneer(address auctioneer) public {
+        removeAuctionRound(auctioneer);
     }
 
     constructor(

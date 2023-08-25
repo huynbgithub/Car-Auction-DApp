@@ -1,18 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
-import Home from "./components/Home"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import "./App.css";
+import RouterComponent from "./router";
 
 function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-      </Switch>
-    </Router>
-  );
+    return (
+        <div>
+            <RouterComponent />
+        </div>
+    );
 }
 
 export default App;

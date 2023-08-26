@@ -5,38 +5,44 @@ import Web3 from "web3";
 
 export default function Navbar() {
 
-    const [web3, setWeb3] = useState(null);
-    const [wAddress, setWAddress] = useState(null);
-    // const [wBalance, setWBalance] = useState(null);
+    const [isConnected, setIsConnected] = useState(false);
 
-    const handleConnectWallet = async () => {
-        if (
-            typeof window !== "undefined" &&
-            typeof window.ethereum !== "undefined"
-        ) {
-            try {
-                await window.ethereum.request({
-                    method: "eth_requestAccounts",
-                });
-                const web3Instance = new Web3(window.ethereum);
-                setWeb3(web3Instance);
-                const accounts = await web3Instance.eth.getAccounts();
-                setWAddress(accounts[0]);
-                let balance = await web3.eth.getBalance(accounts[0]);
-
-                localStorage.setItem("walletAddress", accounts[0]);
-                localStorage.setItem("walletBalance", balance);
-            } catch (error) {
-                console.log(error);
-            }
+    const detectCurrentProvider = () => {
+        let provider;
+        if (window.ethereum) {
+            provider = window.ethereum;
+        } else if (window.web3) {
+            provider = window.web3.currentProvider;
         } else {
-            alert("Not install Metamask! Please install wallet");
+            console.log("Non-ethereum browser detected. You should install Metamask");
         }
+        return provider;
     };
 
-    useEffect(() => {
-        handleConnectWallet();
-    }, []);
+    const onConnect = async () => {
+        try {
+            const currentProvider = detectCurrentProvider();
+            if (currentProvider) {
+                await currentProvider.request({ method: 'eth_requestAccounts' });
+                const web3 = new Web3(currentProvider);
+                const userAccount = await web3.eth.getAccounts();
+                const account = userAccount[0];
+                localStorage.setItem("walletAddress", account)
+                let ethBalance = await web3.eth.getBalance(account);
+                let balance = web3.utils.fromWei(ethBalance, "ether");
+                localStorage.setItem("walletBalance", balance);
+                setIsConnected(true);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const onDisconnect = () => {
+        localStorage.setItem("walletBalance", null)
+        localStorage.setItem("walletAddress", null)
+        setIsConnected(false);
+    }
 
     return (
         <nav className="navbar navbar-expand-sm">
@@ -52,10 +58,11 @@ export default function Navbar() {
                         </li>
                     </ul>
                 </nav>
-                {wAddress ? (
-                    <button className="btn btn-secondary">Connected Successfully</button>
-                ) : (
-                    <button className="btn btn-danger" onClick={handleConnectWallet}>Connect Wallet</button>
+                {!isConnected && (
+                    <button className="btn btn-danger" onClick={onConnect}>Connect Wallet</button>
+                )}
+                {isConnected && (
+                    <button className="btn btn-secondary" onClick={onDisconnect}>Disconnect Wallet</button>
                 )}
             </div>
         </nav >

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Wallet() {
-
     return (
         <div className="container">
             <div className="container" style={{ width: 600 }}>
@@ -22,3 +21,4 @@ export default function Wallet() {
         </div>
     );
 };
+

@@ -15,7 +15,7 @@ export default function Home() {
                         <div className="card-body">
                             <h4 className="card-title">Name</h4>
                             <p className="card-text">Description</p>
-                            <Link to="/detail" className="btn btn-success">Detail</Link>
+                            <Link to="/detail" className="btn btn-success float-end">Detail</Link>
                         </div>
                     </div>
                 </div>

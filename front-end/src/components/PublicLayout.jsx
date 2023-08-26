@@ -1,20 +1,23 @@
-import {  Layout,   } from 'antd';
-
+import { Layout, } from 'antd';
+import Navbar from "./Navbar"
 import { Outlet } from 'react-router-dom';
-const {  Content,  } = Layout;
 
+const { Content, } = Layout;
 
 const PublicLayout = () => {
- 
+
   return (
     <Layout className="layout" >
-      
-      <Content
-        style={{ minHeight: '100vh',width:'100%',display:"flex",alignItems:"center",justifyContent:"center"   }}
+
+      <Content className='bg-white vh-100'
       >
-        <Outlet />
+        <div className='container'>
+          <Navbar />
+          <Outlet />
+          {/* <Footer /> */}
+        </div>
       </Content>
-      
+
     </Layout>
   );
 };

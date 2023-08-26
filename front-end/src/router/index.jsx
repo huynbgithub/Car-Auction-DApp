@@ -4,8 +4,9 @@ import PublicRoute from "./PublicRoute"
 import EmployeeRoute from "./EmployeeRoute"
 import AdminRoute from "./AdminRoute"
 import PublicLayout from "../components/PublicLayout";
-import Home from "../components/Home"
+import Home from "../page/Home"
 import Detail from "../page/Detail";
+import Wallet from "../page/Wallet";
 const publicRoute = [
     {
         index: true,
@@ -18,6 +19,13 @@ const publicRoute = [
         index: true,
         path: "detail",
         component: <Detail />,
+        exact: true,
+        restrict: true,
+    },
+    {
+        index: true,
+        path: "wallet",
+        component: <Wallet />,
         exact: true,
         restrict: true,
     },

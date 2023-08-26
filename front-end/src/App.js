@@ -1,4 +1,3 @@
-import "./App.css";
 import RouterComponent from "./router";
 
 function App() {

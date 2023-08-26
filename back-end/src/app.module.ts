@@ -1,4 +1,5 @@
 import blockchainConfig from '@config/blockchain.config'
+import { VehicleModule } from '@http/vehicle/vehicle.module'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
@@ -7,9 +8,7 @@ import { ConfigModule } from '@nestjs/config'
         load: [
             blockchainConfig
         ],
-    })],
-    controllers: [],
-    providers: [
-    ],
-})
+    }),
+    VehicleModule
+    ]})
 export class AppModule {}

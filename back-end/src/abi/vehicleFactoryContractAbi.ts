@@ -102,6 +102,108 @@ const abi = [
     },
     {
         'inputs': [],
+        'name': 'getDeployedVehicleDatas',
+        'outputs': [
+            {
+                'components': [
+                    {
+                        'internalType': 'uint256',
+                        'name': 'deposit',
+                        'type': 'uint256'
+                    },
+                    {
+                        'components': [
+                            {
+                                'internalType': 'string',
+                                'name': 'ownerFullName',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'ownerAddress',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'brand',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'vehicleType',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'color',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'uint16',
+                                'name': 'seatCapacity',
+                                'type': 'uint16'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'origin',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'licensePlate',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'engineNumber',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'chassisNumber',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'string',
+                                'name': 'modelCode',
+                                'type': 'string'
+                            },
+                            {
+                                'internalType': 'uint32',
+                                'name': 'capacity',
+                                'type': 'uint32'
+                            },
+                            {
+                                'internalType': 'uint256',
+                                'name': 'firstRegistrationDate',
+                                'type': 'uint256'
+                            }
+                        ],
+                        'internalType': 'struct VehicleProperties',
+                        'name': 'props',
+                        'type': 'tuple'
+                    },
+                    {
+                        'internalType': 'uint256',
+                        'name': 'startingPrice',
+                        'type': 'uint256'
+                    },
+                    {
+                        'internalType': 'string[]',
+                        'name': 'vehicleImages',
+                        'type': 'string[]'
+                    }
+                ],
+                'internalType': 'struct VehicleData[]',
+                'name': '',
+                'type': 'tuple[]'
+            }
+        ],
+        'stateMutability': 'view',
+        'type': 'function'
+    },
+    {
+        'inputs': [],
         'name': 'getDeployedVehicles',
         'outputs': [
             {

@@ -1,13 +1,19 @@
-import { Injectable } from '@nestjs/common'
-import { VehicleFactoryContractService } from 'src/blockchain/contracts/vehicle-factory-contract.service'
+import { Controller, Get } from '@nestjs/common'
+import { VehicleService } from './vehicle.service'
 
-@Injectable()
-export class VehicleService {
+@Controller('api/vehicle')
+export class VehicleController {
     constructor(
-        private readonly vehicleFactoryContractService: VehicleFactoryContractService,
+        private readonly vehicleService: VehicleService
     ) { }
 
-    async processGetVehicles() {
-        return this.vehicleFactoryContractService.getDeployedVehicles()
+    @Get('get-vehicles')
+    async handleGetVehicles(){
+        return await this.vehicleService.processGetVehicles()
+    }
+
+    @Get('get-vehicle-datas')
+    async handleGetVehicleDatas(){
+        return await this.vehicleService.processGetVehicleDatas()
     }
 }

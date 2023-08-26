@@ -107,6 +107,37 @@ const abi = [
         'anonymous': false,
         'inputs': [
             {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'auctioneerAddress',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'vehicleContractAddress',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint32',
+                'name': 'index',
+                'type': 'uint32'
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'quantity',
+                'type': 'uint256'
+            }
+        ],
+        'name': 'CreateAuctionRound',
+        'type': 'event'
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
                 'indexed': true,
                 'internalType': 'address',
                 'name': 'previousOwner',
@@ -133,6 +164,37 @@ const abi = [
             }
         ],
         'name': 'OwnershipTransferred',
+        'type': 'event'
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'auctioneerAddress',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'vehicleContractAddress',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint32',
+                'name': 'index',
+                'type': 'uint32'
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'quantity',
+                'type': 'uint256'
+            }
+        ],
+        'name': 'ReturnFundsToAuctioneer',
         'type': 'event'
     },
     {

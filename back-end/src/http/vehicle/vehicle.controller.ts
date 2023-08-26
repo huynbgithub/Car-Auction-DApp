@@ -13,6 +13,11 @@ export class VehicleController {
     }
 
     @Get('get-vehicle-datas')
+    async handleCreateVehicleDatas(){
+        return await this.vehicleService.processGetVehicleDatas()
+    }
+
+    @Get('get-vehicle-datas')
     async handleGetVehicleDatas(){
         return await this.vehicleService.processGetVehicleDatas()
     }

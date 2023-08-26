@@ -76,17 +76,27 @@ contract Vehicle is Ownable {
             auctionRoundsSize --;
     }
 
+    event CreateAuctionRound(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint quantity);
+
     function createAuctionRound(uint auctionRoundPrice, uint auctionRoundDate, address payable recipient) public payable valueMustEqualDeposit() {
         AuctionRound memory auctionRound = AuctionRound(msg.sender, auctionRoundPrice, auctionRoundDate);     
         
         auctionRounds[auctionRoundsSize] = auctionRound;
+        
+        emit CreateAuctionRound(msg.sender, address(this), auctionRoundsSize, msg.value);
+        
         auctionRoundsSize++;   
 
         recipient.transfer(msg.value);
+
     }
+
+    event ReturnFundsToAuctioneer(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint quantity);
 
     function returnFundsToAuctioneer(address auctioneer, address payable recipient) public payable onlyOwner() valueMustEqualDeposit(){
         removeAuctionRound(auctioneer);
+
+        emit ReturnFundsToAuctioneer(msg.sender, address(this), auctionRoundsSize, msg.value);
 
         recipient.transfer(msg.value);
     }

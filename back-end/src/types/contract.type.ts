@@ -1,3 +1,5 @@
+import { Address, TransactionHash, Uint } from 'web3'
+
 export type VehicleData = {
     deposit: string
     props: VehicleProperties
@@ -19,4 +21,26 @@ export type VehicleProperties = {
     modelCode: string
     capacity: number
     firstRegistrationDate: string
+}
+
+export type CreateVehicleEventLog = {
+    address: Address,
+    name: 'CreateVehicle(address ownerAddress, address contractAddress)'
+    params: {
+        ownerAddress: Address,
+        contractAddress: Address
+    },
+    transactionHash: TransactionHash
+}
+
+export type CreateAuctionRoundEventLog = {
+    address: Address,
+    name: 'CreateAuctionRound(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint quantity)'
+    params: {
+        auctioneerAddress: Address,
+        vehicleContractAddress: Address,
+        index: number,
+        quantity: Uint
+    },
+    transactionHash: TransactionHash
 }

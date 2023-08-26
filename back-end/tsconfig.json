@@ -13,7 +13,7 @@
       "@http/*": ["src/http/*"],
       "@websocket/*": ["src/websocket/*"],
       "@decorators/*": ["src/decorators/*"],
-      "@maps": ["src/maps/"]
+      "@blockchain/*": ["src/blockchain/*"]
     },
     "target": "es2017",
     "sourceMap": true,

@@ -1,10 +1,12 @@
-//SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
 
 import "./Vehicle.sol";
 
 contract VehicleFactory {
     Vehicle[] private deployedVehicles;
+
+    event CreateVehicle(address ownerAddress, address contractAddress);
 
     function createVehicle(
     uint _deposit,
@@ -19,6 +21,8 @@ contract VehicleFactory {
         _vehicleImages
     );
     deployedVehicles.push(newVehicle);
+
+    emit CreateVehicle(msg.sender, address(newVehicle));
     return address(newVehicle);
 }
 

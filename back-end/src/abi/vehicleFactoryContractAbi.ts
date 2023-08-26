@@ -1,5 +1,24 @@
 const abi = [
     {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'ownerAddress',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'contractAddress',
+                'type': 'address'
+            }
+        ],
+        'name': 'CreateVehicle',
+        'type': 'event'
+    },
+    {
         'inputs': [
             {
                 'internalType': 'uint256',

@@ -25,6 +25,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@types/json-bigint": "^1.0.1",
+    "cors": "^2.8.5",
     "json-bigint": "^1.0.0",
     "nodemon": "^3.0.1",
     "reflect-metadata": "^0.1.13",

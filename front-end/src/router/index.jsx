@@ -7,6 +7,7 @@ import PublicLayout from "../components/PublicLayout";
 import Home from "../page/Home"
 import Detail from "../page/Detail";
 import Wallet from "../page/Wallet";
+import PostCar from "../page/PostCar";
 const publicRoute = [
     {
         index: true,
@@ -26,6 +27,13 @@ const publicRoute = [
         index: true,
         path: "wallet",
         component: <Wallet />,
+        exact: true,
+        restrict: true,
+    },
+    {
+        index: true,
+        path: "postcar",
+        component: <PostCar />,
         exact: true,
         restrict: true,
     },

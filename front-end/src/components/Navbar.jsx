@@ -56,6 +56,9 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/wallet">Wallet</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/postcar">Post Car</Link>
+                        </li>
                     </ul>
                 </nav>
                 {!isConnected && (

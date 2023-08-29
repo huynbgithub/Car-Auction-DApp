@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
@@ -133,6 +132,18 @@ contract Vehicle is Ownable {
 
     function getData() external view returns (VehicleData memory){
         return VehicleData(address(this), deposit, props, startingPrice, vehicleImages);
+    }
+
+    
+    function submitAuction() public onlyOwner(){
+        address lastAuctioneer = auctionRounds[auctionRoundsSize - 1].auctioneer;
+        transferOwnership(lastAuctioneer);
+
+        for (uint32 i = 0; i < auctionRoundsSize; i++){
+           delete auctionRounds[i];
+        }
+
+        auctionRoundsSize = 0;
     }
 }
 

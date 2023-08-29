@@ -2,6 +2,11 @@ const abi = [
     {
         'inputs': [
             {
+                'internalType': 'address payable',
+                'name': '_serverAddress',
+                'type': 'address'
+            },
+            {
                 'internalType': 'uint256',
                 'name': '_deposit',
                 'type': 'uint256'
@@ -127,6 +132,12 @@ const abi = [
             {
                 'indexed': false,
                 'internalType': 'uint256',
+                'name': 'deposit',
+                'type': 'uint256'
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
                 'name': 'quantity',
                 'type': 'uint256'
             }
@@ -198,21 +209,41 @@ const abi = [
         'type': 'event'
     },
     {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'vehicleOwner',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'recipient',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'auctionRoundPrice',
+                'type': 'uint256'
+            }
+        ],
+        'name': 'SubmitAuction',
+        'type': 'event'
+    },
+    {
         'inputs': [
             {
                 'internalType': 'uint256',
-                'name': 'auctionRoundPrice',
+                'name': 'quantity',
                 'type': 'uint256'
             },
             {
                 'internalType': 'uint256',
                 'name': 'auctionRoundDate',
                 'type': 'uint256'
-            },
-            {
-                'internalType': 'address payable',
-                'name': 'recipient',
-                'type': 'address'
             }
         ],
         'name': 'createAuctionRound',
@@ -256,6 +287,11 @@ const abi = [
         'outputs': [
             {
                 'components': [
+                    {
+                        'internalType': 'address',
+                        'name': 'vehicleAddress',
+                        'type': 'address'
+                    },
                     {
                         'internalType': 'uint256',
                         'name': 'deposit',
@@ -518,6 +554,13 @@ const abi = [
             }
         ],
         'name': 'setDeposit',
+        'outputs': [],
+        'stateMutability': 'nonpayable',
+        'type': 'function'
+    },
+    {
+        'inputs': [],
+        'name': 'submitAuction',
         'outputs': [],
         'stateMutability': 'nonpayable',
         'type': 'function'

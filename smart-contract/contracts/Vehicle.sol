@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
@@ -5,6 +6,7 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 
 contract Vehicle is Ownable {
+    address payable private serverAddress;
 
     uint private deposit;
 
@@ -75,19 +77,18 @@ contract Vehicle is Ownable {
             auctionRoundsSize --;
     }
 
-    event CreateAuctionRound(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint quantity);
+    event CreateAuctionRound(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint deposit, uint quantity);
 
-    function createAuctionRound(uint auctionRoundPrice, uint auctionRoundDate, address payable recipient) public payable valueMustEqualDeposit() {
-        AuctionRound memory auctionRound = AuctionRound(msg.sender, auctionRoundPrice, auctionRoundDate);     
+    function createAuctionRound(uint quantity, uint auctionRoundDate) public payable valueMustEqualDeposit() {
+        AuctionRound memory auctionRound = AuctionRound(msg.sender, msg.value, auctionRoundDate);     
         
         auctionRounds[auctionRoundsSize] = auctionRound;
         
-        emit CreateAuctionRound(msg.sender, address(this), auctionRoundsSize, msg.value);
+        emit CreateAuctionRound(msg.sender, address(this), auctionRoundsSize, quantity, msg.value);
         
         auctionRoundsSize++;   
 
-        recipient.transfer(msg.value);
-
+        serverAddress.transfer(msg.value);
     }
 
     event ReturnFundsToAuctioneer(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint quantity);
@@ -101,12 +102,15 @@ contract Vehicle is Ownable {
     }
 
     constructor(
+        address payable _serverAddress,
         uint _deposit, 
         VehicleProperties memory _props,
         uint _startingPrice,
         string[] memory _vehicleImages
     ) {
         console.log("New Vehicle Contract has been deployed.");
+
+        serverAddress = _serverAddress;
         deposit = _deposit;
         props = _props;
         startingPrice = _startingPrice;
@@ -134,10 +138,15 @@ contract Vehicle is Ownable {
         return VehicleData(address(this), deposit, props, startingPrice, vehicleImages);
     }
 
-    
+    event SubmitAuction(address vehicleOwner, address recipient, uint auctionRoundPrice);
+
     function submitAuction() public onlyOwner(){
         address lastAuctioneer = auctionRounds[auctionRoundsSize - 1].auctioneer;
         transferOwnership(lastAuctioneer);
+
+        if (auctionRoundsSize == 0) revert("No auction rounds to submit.");
+
+        emit SubmitAuction(address(this), lastAuctioneer, auctionRounds[auctionRoundsSize - 1].auctionRoundPrice);
 
         for (uint32 i = 0; i < auctionRoundsSize; i++){
            delete auctionRounds[i];

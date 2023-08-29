@@ -6,15 +6,26 @@ import "./Vehicle.sol";
 contract VehicleFactory {
     Vehicle[] private deployedVehicles;
 
+    function isDeployed(address vehicleAddress) external view returns (bool){
+        for (uint i = 0; i < deployedVehicles.length; i++) {
+            if (address(deployedVehicles[i]) == vehicleAddress) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     event CreateVehicle(address ownerAddress, address contractAddress);
 
     function createVehicle(
-    uint _deposit,
-    VehicleProperties memory _props,
-    uint _startingPrice,
-    string[] memory _vehicleImages
+        address payable _serverAddress,
+        uint _deposit,
+        VehicleProperties memory _props,
+        uint _startingPrice,
+        string[] memory _vehicleImages
 ) public returns (address) {
     Vehicle newVehicle = new Vehicle(
+        _serverAddress,
         _deposit,
         _props,
         _startingPrice,
@@ -22,9 +33,11 @@ contract VehicleFactory {
     );
     deployedVehicles.push(newVehicle);
 
+    newVehicle.transferOwnership(msg.sender);
+
     emit CreateVehicle(msg.sender, address(newVehicle));
     return address(newVehicle);
-}
+}   
 
     function getDeployedVehicles() external view returns (Vehicle[] memory) {
         return deployedVehicles;
@@ -38,5 +51,4 @@ contract VehicleFactory {
         }
         return vehicleDatas;
     }
-
 }

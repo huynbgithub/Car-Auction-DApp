@@ -21,6 +21,11 @@ const abi = [
     {
         'inputs': [
             {
+                'internalType': 'address payable',
+                'name': '_serverAddress',
+                'type': 'address'
+            },
+            {
                 'internalType': 'uint256',
                 'name': '_deposit',
                 'type': 'uint256'
@@ -126,6 +131,11 @@ const abi = [
             {
                 'components': [
                     {
+                        'internalType': 'address',
+                        'name': 'vehicleAddress',
+                        'type': 'address'
+                    },
+                    {
                         'internalType': 'uint256',
                         'name': 'deposit',
                         'type': 'uint256'
@@ -229,6 +239,25 @@ const abi = [
                 'internalType': 'contract Vehicle[]',
                 'name': '',
                 'type': 'address[]'
+            }
+        ],
+        'stateMutability': 'view',
+        'type': 'function'
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'vehicleAddress',
+                'type': 'address'
+            }
+        ],
+        'name': 'isDeployed',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool'
             }
         ],
         'stateMutability': 'view',

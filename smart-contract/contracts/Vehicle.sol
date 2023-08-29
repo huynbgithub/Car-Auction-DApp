@@ -132,7 +132,7 @@ contract Vehicle is Ownable {
     }
 
     function getData() external view returns (VehicleData memory){
-        return VehicleData(deposit, props, startingPrice, vehicleImages);
+        return VehicleData(address(this), deposit, props, startingPrice, vehicleImages);
     }
 }
 
@@ -153,6 +153,7 @@ struct VehicleProperties {
 }
 
 struct VehicleData {
+    address vehicleAddress;
     uint deposit;
     VehicleProperties props;
     uint startingPrice;

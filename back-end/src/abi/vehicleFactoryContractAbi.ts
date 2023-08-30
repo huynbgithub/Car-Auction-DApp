@@ -21,11 +21,6 @@ const abi = [
     {
         'inputs': [
             {
-                'internalType': 'address payable',
-                'name': '_serverAddress',
-                'type': 'address'
-            },
-            {
                 'internalType': 'uint256',
                 'name': '_deposit',
                 'type': 'uint256'
@@ -263,6 +258,6 @@ const abi = [
         'stateMutability': 'view',
         'type': 'function'
     }
-]  as const
+] as const
 
 export default abi

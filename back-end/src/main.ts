@@ -5,7 +5,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule)
     
     app.use(cors({
-        origin: 'http://localhost:3000',
+        origin: 'http://192.168.1.20:3000',
         methods: '*',
         allowedHeaders: '*',
         maxAge: 3600,

@@ -16,7 +16,7 @@ web3Instance.eth.getTransactionCount(account.address, 'latest').then(
 )
 
 const tx: Transaction = {
-    nonce: 13,
+    nonce: 14,
     to: '0x9E6fBe9A57Ce988A2a81293195e79D8B43f60D9a',
     gas: 10000000,
     gasPrice: web3.utils.toWei(50, 'gwei'),

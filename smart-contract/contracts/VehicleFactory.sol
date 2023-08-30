@@ -18,14 +18,12 @@ contract VehicleFactory {
     event CreateVehicle(address ownerAddress, address contractAddress);
 
     function createVehicle(
-        address payable _serverAddress,
         uint _deposit,
         VehicleProperties memory _props,
         uint _startingPrice,
         string[] memory _vehicleImages
 ) public returns (address) {
     Vehicle newVehicle = new Vehicle(
-        _serverAddress,
         _deposit,
         _props,
         _startingPrice,

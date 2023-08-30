@@ -6,7 +6,6 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 
 contract Vehicle is Ownable {
-    address payable private serverAddress;
 
     uint private deposit;
 
@@ -31,7 +30,7 @@ contract Vehicle is Ownable {
 
     struct AuctionRound {
         address auctioneer;
-        uint auctionRoundPrice;
+        uint quantity;
         uint auctionRoundDate;
     }
     
@@ -83,26 +82,27 @@ contract Vehicle is Ownable {
         AuctionRound memory auctionRound = AuctionRound(msg.sender, msg.value, auctionRoundDate);     
         
         auctionRounds[auctionRoundsSize] = auctionRound;
+
+        if (auctionRoundsSize > 0 && quantity < auctionRounds[auctionRoundsSize - 1].quantity){
+            revert("New quantity must be greater than or equal to the previous auction round's quantity.");
+        }
         
         emit CreateAuctionRound(msg.sender, address(this), auctionRoundsSize, quantity, msg.value);
         
-        auctionRoundsSize++;   
-
-        serverAddress.transfer(msg.value);
+        auctionRoundsSize++;
     }
 
     event ReturnFundsToAuctioneer(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint quantity);
 
-    function returnFundsToAuctioneer(address auctioneer, address payable recipient) public payable onlyOwner() valueMustEqualDeposit(){
-        removeAuctionRound(auctioneer);
+    function returnFundsToAuctioneer() public {
+        removeAuctionRound(msg.sender);
 
-        emit ReturnFundsToAuctioneer(msg.sender, address(this), auctionRoundsSize, msg.value);
+        emit ReturnFundsToAuctioneer(msg.sender, address(this), auctionRoundsSize, deposit);
 
-        recipient.transfer(msg.value);
+        payable(msg.sender).transfer(deposit);
     }
 
     constructor(
-        address payable _serverAddress,
         uint _deposit, 
         VehicleProperties memory _props,
         uint _startingPrice,
@@ -110,7 +110,6 @@ contract Vehicle is Ownable {
     ) {
         console.log("New Vehicle Contract has been deployed.");
 
-        serverAddress = _serverAddress;
         deposit = _deposit;
         props = _props;
         startingPrice = _startingPrice;
@@ -146,7 +145,7 @@ contract Vehicle is Ownable {
 
         if (auctionRoundsSize == 0) revert("No auction rounds to submit.");
 
-        emit SubmitAuction(address(this), lastAuctioneer, auctionRounds[auctionRoundsSize - 1].auctionRoundPrice);
+        emit SubmitAuction(address(this), lastAuctioneer, auctionRounds[auctionRoundsSize - 1].quantity);
 
         for (uint32 i = 0; i < auctionRoundsSize; i++){
            delete auctionRounds[i];

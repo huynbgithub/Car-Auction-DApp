@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Web3 } from 'web3';
+import { createVehicle } from "../utils/contracts/VehicleFactoryContract.js"
+import { Web3Context } from '../App.js';
 
 function PostCar() {
+    const { web3 } = useContext(Web3Context)
     const [formData, setFormData] = useState({
-        deposit: '',
+        deposit: 0,
         ownerFullName: '',
         ownerAddress: '',
         brand: '',
         vehicleType: '',
         color: '',
-        seatCapacity: '',
+        seatCapacity: 0,
         origin: '',
         licensePlate: '',
         engineNumber: '',
         chassisNumber: '',
         modelCode: '',
-        capacity: '',
-        firstRegistrationDate: '',
-        startingPrice: ''
+        capacity: 0,
+        firstRegistrationDate: 0,
+        startingPrice: 0,
+        vehicleImages: []
     });
 
     const handleChange = (event) => {
@@ -25,6 +30,25 @@ function PostCar() {
     };
 
     const handleSubmit = (event) => {
+        createVehicle(formData.deposit,
+            {
+                ownerFullName: formData.ownerFullName,
+                ownerAddress: formData.ownerAddress,
+                brand: formData.brand,
+                vehicleType: formData.vehicleType,
+                color: formData.color,
+                seatCapacity: formData.seatCapacity,
+                origin: formData.origin,
+                licensePlate: formData.licensePlate,
+                engineNumber: formData.engineNumber,
+                chassisNumber: formData.chassisNumber,
+                modelCode: formData.modelCode,
+                capacity: formData.capacity,
+                firstRegistrationDate: formData.firstRegistrationDate
+            },
+            formData.startingPrice,
+            formData.vehicleImages,
+            web3);
         event.preventDefault();
         console.log(formData);
     };
@@ -48,11 +72,17 @@ function PostCar() {
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="deposit">Deposit</label>
-                            <input type="text" class="form-control" id="deposit" name="deposit" value={formData.deposit} onChange={handleChange} />
+                            <input type="number" class="form-control" id="deposit" name="deposit" value={formData.deposit} onChange={handleChange} />
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="ownerAddress">Owner Address</label>
+                            <input type="text" class="form-control" id="ownerAddress" name="ownerAddress" value={formData.ownerAddress} onChange={handleChange} />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="ownerFullName">Owner Full Name</label>
                             <input type="text" class="form-control" id="ownerFullName" name="ownerFullName" value={formData.ownerFullName} onChange={handleChange} />
@@ -124,14 +154,6 @@ function PostCar() {
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
                 <div className="form-group">
                     <label htmlFor="chassisNumber">Chassis Number</label>
                     <input type="text" className="form-control" id="chassisNumber" name="chassisNumber" value={formData.chassisNumber} onChange={handleChange} />

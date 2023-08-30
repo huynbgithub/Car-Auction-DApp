@@ -20,7 +20,7 @@ const tx: Transaction = {
     to: '0x9E6fBe9A57Ce988A2a81293195e79D8B43f60D9a',
     gas: 10000000,
     gasPrice: web3.utils.toWei(50, 'gwei'),
-    data: contract.methods.createAuctionRound(20000000000, 22).encodeABI(),
+    data: contract.methods.getDeployedVehicleDatas().call(),
     value: 1000000000000000000
 }
 

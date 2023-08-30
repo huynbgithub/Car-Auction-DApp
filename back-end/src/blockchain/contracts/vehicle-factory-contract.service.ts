@@ -28,7 +28,8 @@ export class VehicleFactoryContractService {
 
         response.forEach(vehicleData => 
             results.push(
-                {
+                {   
+                    address: vehicleData.vehicleAddress.toString(),
                     deposit: vehicleData.deposit.toString(),
                     props: {
                         ownerFullName: vehicleData.props.ownerFullName.toString(),

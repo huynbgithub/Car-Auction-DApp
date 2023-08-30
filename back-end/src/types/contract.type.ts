@@ -1,6 +1,7 @@
 import { Address, TransactionHash, Uint } from 'web3'
 
 export type VehicleData = {
+    address: Address
     deposit: string
     props: VehicleProperties
     startingPrice: string

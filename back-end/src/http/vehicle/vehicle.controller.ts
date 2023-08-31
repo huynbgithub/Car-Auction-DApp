@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Param } from '@nestjs/common'
 import { VehicleService } from './vehicle.service'
 
 @Controller('api/vehicle')
@@ -6,6 +6,11 @@ export class VehicleController {
     constructor(
         private readonly vehicleService: VehicleService
     ) { }
+
+    @Get('get-vehicle-data/:address') 
+    async handleGetVehicleData(@Param('address') address: string) {
+        return await this.vehicleService.processGetVehicleData(address)
+    }
 
     @Get('get-vehicles')
     async handleGetVehicles(){

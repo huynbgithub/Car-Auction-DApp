@@ -24,6 +24,12 @@ export type VehicleProperties = {
     firstRegistrationDate: string
 }
 
+export type AuctionRound = {
+    auctioneer: Address;
+    quantity: string;
+    auctionRoundDate: string;
+}
+
 export type CreateVehicleEventLog = {
     address: Address,
     name: 'CreateVehicle(address ownerAddress, address contractAddress)'

@@ -107,13 +107,13 @@ const abi = [
         'anonymous': false,
         'inputs': [
             {
-                'indexed': false,
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'auctioneerAddress',
                 'type': 'address'
             },
             {
-                'indexed': false,
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'vehicleContractAddress',
                 'type': 'address'
@@ -176,13 +176,13 @@ const abi = [
         'anonymous': false,
         'inputs': [
             {
-                'indexed': false,
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'auctioneerAddress',
                 'type': 'address'
             },
             {
-                'indexed': false,
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'vehicleContractAddress',
                 'type': 'address'
@@ -200,7 +200,7 @@ const abi = [
                 'type': 'uint256'
             }
         ],
-        'name': 'ReturnFundsToAuctioneer',
+        'name': 'RefundToAuctioneer',
         'type': 'event'
     },
     {
@@ -516,15 +516,21 @@ const abi = [
         'type': 'function'
     },
     {
-        'inputs': [],
-        'name': 'renounceOwnership',
+        'inputs': [
+            {
+                'internalType': 'uint32',
+                'name': 'index',
+                'type': 'uint32'
+            }
+        ],
+        'name': 'refundToAuctioneer',
         'outputs': [],
         'stateMutability': 'nonpayable',
         'type': 'function'
     },
     {
         'inputs': [],
-        'name': 'returnFundsToAuctioneer',
+        'name': 'renounceOwnership',
         'outputs': [],
         'stateMutability': 'nonpayable',
         'type': 'function'
@@ -562,6 +568,6 @@ const abi = [
         'stateMutability': 'nonpayable',
         'type': 'function'
     }
-] as const
+]as const
 
 export default abi

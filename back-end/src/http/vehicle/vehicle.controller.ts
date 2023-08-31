@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common'
 import { VehicleService } from './vehicle.service'
+import { Address } from 'web3'
 
 @Controller('api/vehicle')
 export class VehicleController {
@@ -8,7 +9,7 @@ export class VehicleController {
     ) { }
 
     @Get('get-vehicle-data/:address') 
-    async handleGetVehicleData(@Param('address') address: string) {
+    async handleGetVehicleData(@Param('address') address: Address) {
         return await this.vehicleService.processGetVehicleData(address)
     }
 
@@ -25,5 +26,10 @@ export class VehicleController {
     @Get('get-vehicle-datas')
     async handleGetVehicleDatas(){
         return await this.vehicleService.processGetVehicleDatas()
+    }
+
+    @Get('get-auction-rounds/:address')
+    async handleGetAuctionRounds(@Param('address') address: Address){
+        return await this.vehicleService.processGetAuctionRounds(address)
     }
 }

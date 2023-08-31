@@ -24,4 +24,8 @@ export class VehicleService {
         //return await this.vehicleContractService.getVehicleProperties('0xC39D41B2b44B9726B80F871d213E366b0c069Ec0')
         return await this.vehicleFactoryContractService.getDeployedVehicleDatas()
     }
+
+    async processGetAuctionRounds(vehicleAddress: Address){
+        return await this.vehicleContractService.getAuctionRounds(vehicleAddress)
+    }
 }

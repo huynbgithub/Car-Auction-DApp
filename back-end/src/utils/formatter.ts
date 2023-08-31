@@ -1,4 +1,4 @@
-import { VehicleData } from '@defined-types/contract.type'
+import { AuctionRound, VehicleData } from '@defined-types/contract.type'
 
 export const formatVehicleData = (data) : VehicleData => {
     return {
@@ -21,5 +21,13 @@ export const formatVehicleData = (data) : VehicleData => {
         },
         startingPrice: data.startingPrice.toString(),
         vehicleImages: data.vehicleImages
+    }
+} 
+
+export const formatAuctionRound = (data) : AuctionRound => {
+    return {
+        auctioneer: data.auctioneer.toString(),
+        auctionRoundDate: data.auctionRoundDate.toString(),
+        quantity: data.quantity.toString()
     }
 } 

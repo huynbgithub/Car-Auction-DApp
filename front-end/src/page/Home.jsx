@@ -23,7 +23,6 @@ export default function Home() {
             .catch(error => console.log(error));
     }
 
-
     return (
         <div className="container-fluid">
             <div class="container-fluid p-5 bg-light text-danger text-center">
@@ -35,11 +34,14 @@ export default function Home() {
                 {cars.map((item) => (
                     <div className="col-3 mt-3" key={item.id}>
                         <div className="card" style={{ width: 300 }}>
-                            <img className="card-img-top" src={item.vehicleImages.length > 0 ? item.vehicleImages[0] : ''} alt="Card image" style={{ width: '100%', height: 200 }} />
+                            <img className="card-img-top" src={item.vehicleImages.length > 0 ? item.vehicleImages[0] : ''} alt="Card image" style={{ width: '100%', height: 250 }} />
                             <div className="card-body">
-                                <h4 className="card-title">{item.props.brand}</h4>
-                                <p className="card-text">{item.props.vehicleType}</p>
-                                <Link to="/detail" className="btn btn-success float-end">Detail</Link>
+                                <h6 className="card-title">
+                                    <a target="blank" href={`https://baobab.scope.klaytn.com/account/${item.address}`}>{item.address}</a>
+                                </h6>
+                                <p className="card-text">Brand: {item.props.brand}</p>
+                                <p className="card-text">Starting Price: ${item.startingPrice}</p>
+                                <Link to={`/detail/${item.address}`} className="btn btn-success float-end">Detail</Link>
                             </div>
                         </div>
                     </div>

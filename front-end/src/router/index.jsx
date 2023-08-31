@@ -18,7 +18,7 @@ const publicRoute = [
     },
     {
         index: true,
-        path: "detail",
+        path: "detail/:address",
         component: <Detail />,
         exact: true,
         restrict: true,

@@ -4,7 +4,7 @@ import Web3 from "web3";
 
 export const getVehicleFactoryContract = (web3) => {
     const eth = web3.eth;
-    return new eth.Contract(vehicleFactoryContractAbi, "0x9ab4614dEDF3095E098959Aaa9c8Da89e11fCc51");
+    return new eth.Contract(vehicleFactoryContractAbi, "0x8a23855d2f143697139dF3f9D6f2d5A4b5a12959");
 }
 
 export const createVehicle = async (deposit, props, startingPrice, vehicleImages, web3) => {

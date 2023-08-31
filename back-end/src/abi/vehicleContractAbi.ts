@@ -2,11 +2,6 @@ const abi = [
     {
         'inputs': [
             {
-                'internalType': 'address payable',
-                'name': '_serverAddress',
-                'type': 'address'
-            },
-            {
                 'internalType': 'uint256',
                 'name': '_deposit',
                 'type': 'uint256'
@@ -264,7 +259,7 @@ const abi = [
                     },
                     {
                         'internalType': 'uint256',
-                        'name': 'auctionRoundPrice',
+                        'name': 'quantity',
                         'type': 'uint256'
                     },
                     {
@@ -528,21 +523,10 @@ const abi = [
         'type': 'function'
     },
     {
-        'inputs': [
-            {
-                'internalType': 'address',
-                'name': 'auctioneer',
-                'type': 'address'
-            },
-            {
-                'internalType': 'address payable',
-                'name': 'recipient',
-                'type': 'address'
-            }
-        ],
+        'inputs': [],
         'name': 'returnFundsToAuctioneer',
         'outputs': [],
-        'stateMutability': 'payable',
+        'stateMutability': 'nonpayable',
         'type': 'function'
     },
     {

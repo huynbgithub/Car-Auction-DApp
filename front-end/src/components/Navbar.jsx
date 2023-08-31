@@ -34,6 +34,7 @@ export default function Navbar() {
 
                 const userAccount = await web3.eth.getAccounts();
                 const account = userAccount[0];
+                localStorage.setItem("walletAddress", account);
 
                 let ethBalance = await web3.eth.getBalance(account);
                 let balance = web3.utils.fromWei(ethBalance, "ether");

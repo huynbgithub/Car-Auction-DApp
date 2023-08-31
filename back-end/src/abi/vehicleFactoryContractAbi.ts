@@ -3,13 +3,13 @@ const abi = [
         'anonymous': false,
         'inputs': [
             {
-                'indexed': false,
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'ownerAddress',
                 'type': 'address'
             },
             {
-                'indexed': false,
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'contractAddress',
                 'type': 'address'

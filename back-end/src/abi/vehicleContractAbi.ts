@@ -278,6 +278,19 @@ const abi = [
     },
     {
         'inputs': [],
+        'name': 'getAuctionRoundsSize',
+        'outputs': [
+            {
+                'internalType': 'uint32',
+                'name': '',
+                'type': 'uint32'
+            }
+        ],
+        'stateMutability': 'view',
+        'type': 'function'
+    },
+    {
+        'inputs': [],
         'name': 'getData',
         'outputs': [
             {
@@ -516,19 +529,6 @@ const abi = [
         'type': 'function'
     },
     {
-        'inputs': [
-            {
-                'internalType': 'uint32',
-                'name': 'index',
-                'type': 'uint32'
-            }
-        ],
-        'name': 'refundToAuctioneer',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
-    },
-    {
         'inputs': [],
         'name': 'renounceOwnership',
         'outputs': [],
@@ -568,6 +568,6 @@ const abi = [
         'stateMutability': 'nonpayable',
         'type': 'function'
     }
-]as const
+] as const
 
 export default abi

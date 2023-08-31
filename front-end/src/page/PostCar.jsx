@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Web3 } from 'web3';
 import { createVehicle } from "../utils/contracts/VehicleFactoryContract.js"
 import { Web3Context } from '../App.js';
+import { storage } from '../firebase.js';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function PostCar() {
     const { web3 } = useContext(Web3Context)
@@ -25,33 +27,67 @@ function PostCar() {
     });
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+        const { name, value, type, files } = event.target;
+
+        if (type == "file") {
+            const newImages = Array.from(files);
+            setFormData((prevData) => ({ ...prevData, [name]: newImages }));
+        } else {
+            setFormData((prevData) => ({ ...prevData, [name]: value }));
+        }
     };
 
     const handleSubmit = (event) => {
-        createVehicle(formData.deposit,
-            {
-                ownerFullName: formData.ownerFullName,
-                ownerAddress: formData.ownerAddress,
-                brand: formData.brand,
-                vehicleType: formData.vehicleType,
-                color: formData.color,
-                seatCapacity: formData.seatCapacity,
-                origin: formData.origin,
-                licensePlate: formData.licensePlate,
-                engineNumber: formData.engineNumber,
-                chassisNumber: formData.chassisNumber,
-                modelCode: formData.modelCode,
-                capacity: formData.capacity,
-                firstRegistrationDate: formData.firstRegistrationDate
-            },
-            formData.startingPrice,
-            formData.vehicleImages,
-            web3);
         event.preventDefault();
-        console.log(formData);
+
+        const storagePromises = formData.vehicleImages.map((image) => {
+            const storageRef = ref(storage, `images/${image.name}`);
+            return uploadBytes(storageRef, image);
+        });
+
+        Promise.all(storagePromises)
+            .then((snapshots) => {
+                const imageUrls = [];
+
+                snapshots.forEach((snapshot) => {
+                    getDownloadURL(snapshot.ref).then((url) => {
+                        imageUrls.push(url);
+
+                        if (imageUrls.length === formData.vehicleImages.length) {
+                            createVehicle(
+                                formData.deposit,
+                                {
+                                    ownerFullName: formData.ownerFullName,
+                                    ownerAddress: formData.ownerAddress,
+                                    brand: formData.brand,
+                                    vehicleType: formData.vehicleType,
+                                    color: formData.color,
+                                    seatCapacity: formData.seatCapacity,
+                                    origin: formData.origin,
+                                    licensePlate: formData.licensePlate,
+                                    engineNumber: formData.engineNumber,
+                                    chassisNumber: formData.chassisNumber,
+                                    modelCode: formData.modelCode,
+                                    capacity: formData.capacity,
+                                    firstRegistrationDate: formData.firstRegistrationDate
+                                },
+                                formData.startingPrice,
+                                imageUrls,
+                                web3
+                            )
+                                .then(() => {
+                                    // Success handling
+                                })
+                                .catch((error) => console.log(error));
+                        }
+                    });
+                });
+            })
+            .catch((error) => {
+                console.log("Error uploading images:", error);
+            });
     };
+
     const brandOptions = [
         'Toyota',
         'Honda',
@@ -182,7 +218,7 @@ function PostCar() {
 
                 <div class="form-group">
                     <label for="formFile" class="form-label mt-4">Your car's images</label>
-                    <input class="form-control" type="file" id="formFile" />
+                    <input multiple class="form-control" type="file" id="vehicleImages" name="vehicleImages" onChange={handleChange} />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </fieldset>

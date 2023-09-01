@@ -21,7 +21,7 @@ export const createAuctionRound = async (quantity, auctionRoundDate, vehicleAddr
                 from: account,
                 gasPrice: Web3.utils.toWei(25, 'gwei'),
                 gas: 3000000,
-                data: await getVehicleContract(web3).methods.createAuctionRound(
+                data: await getVehicleContract(vehicleAddress,web3).methods.createAuctionRound(
                     quantity,
                     auctionRoundDate, 
                     ).encodeABI()

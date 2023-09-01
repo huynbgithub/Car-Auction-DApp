@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import RegisterAuction from "../components/RegisterAuction.jsx"
 function Detail() {
   const { address } = useParams();
 
@@ -162,7 +162,7 @@ function Detail() {
                   ))}
                 </tbody>
               </table>
-              <Link to="/detail" className="btn btn-success float-end">Auction Register</Link>
+              <RegisterAuction carAddress={car.address}/>
             </div>
           </div>
         </div>

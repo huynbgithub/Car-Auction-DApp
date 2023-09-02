@@ -1,12 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Web3 } from 'web3';
 import { createVehicle } from "../utils/contracts/VehicleFactoryContract.js"
-import { Web3Context } from '../App.js';
 import { storage } from '../firebase.js';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Web3Context } from "../App";
 
 function PostCar() {
-    const { web3 } = useContext(Web3Context)
+    const { web3 } = useContext(Web3Context);
     const [formData, setFormData] = useState({
         deposit: 0,
         ownerFullName: '',

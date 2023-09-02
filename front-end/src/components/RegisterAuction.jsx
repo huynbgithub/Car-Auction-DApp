@@ -3,10 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Web3Context } from '../App.js';
 import { createAuctionRound } from "../utils/contracts/VehicleContract.js";
 import { useFormik } from 'formik';
-
+import { Web3Context } from "../App";
 
 function Example(props) {
     const [show, setShow] = useState(false);
@@ -15,10 +14,7 @@ function Example(props) {
 
     const handleShow = () => setShow(true);
 
-    const [amount, setAmount] = useState(false);
-
-
-       const { web3 } = useContext(Web3Context);
+    const { web3 } = useContext(Web3Context);
     const formik = useFormik({
 
         initialValues: {
@@ -26,7 +22,7 @@ function Example(props) {
         },
         onSubmit: values => {
             console.log("this function load")
-            createAuctionRound(values.quantity, Math.floor(new Date().getTime() / 1000), props.carAddress,web3 );
+            createAuctionRound(values.quantity, Math.floor(new Date().getTime() / 1000), props.carAddress, web3);
             handleClose();
         },
     });

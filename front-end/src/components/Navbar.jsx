@@ -6,6 +6,8 @@ import { Web3Context } from "../App";
 export default function Navbar() {
 
     const { web3, setWeb3 } = useContext(Web3Context);
+    const { account, setAccount } = useContext(Web3Context);
+    const { balance, setBalance } = useContext(Web3Context);
 
     const detectCurrentProvider = () => {
         let provider;
@@ -26,7 +28,16 @@ export default function Navbar() {
                 await currentProvider.request({ method: 'eth_requestAccounts' });
                 const web3 = new Web3(currentProvider);
 
-                await setWeb3(web3)
+                await setWeb3(web3);
+
+                const account = (await web3.eth.getAccounts())[0];
+
+                await setAccount(account);
+
+                const ethBalance = await web3.eth.getBalance(account);
+                const balance = web3.utils.fromWei(ethBalance, "ether");
+
+                await setBalance(balance);
             }
         } catch (err) {
             console.log(err);
@@ -52,19 +63,16 @@ export default function Navbar() {
                                     <Link className="nav-link" to="/wallet">Wallet</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/postcar">Post Car</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/mycar">My Car</Link>
+                                    <Link className="nav-link" to="/assets">My Assets</Link>
                                 </li>
                             </>
                         )}
                     </ul>
                 </nav>
-                {!web3 && (
+                {!account && (
                     <button className="btn btn-danger" onClick={onConnect}>Connect Wallet</button>
                 )}
-                {web3 && (
+                {account && (
                     <button className="btn btn-secondary">Wallet Connected Successfully</button>
                 )}
             </div>

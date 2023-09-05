@@ -2,6 +2,11 @@ const abi = [
     {
         'inputs': [
             {
+                'internalType': 'address',
+                'name': '_factoryAddress',
+                'type': 'address'
+            },
+            {
                 'internalType': 'uint256',
                 'name': '_deposit',
                 'type': 'uint256'
@@ -176,37 +181,6 @@ const abi = [
         'anonymous': false,
         'inputs': [
             {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'auctioneerAddress',
-                'type': 'address'
-            },
-            {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'vehicleContractAddress',
-                'type': 'address'
-            },
-            {
-                'indexed': false,
-                'internalType': 'uint32',
-                'name': 'index',
-                'type': 'uint32'
-            },
-            {
-                'indexed': false,
-                'internalType': 'uint256',
-                'name': 'quantity',
-                'type': 'uint256'
-            }
-        ],
-        'name': 'RefundToAuctioneer',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
                 'indexed': false,
                 'internalType': 'address',
                 'name': 'vehicleOwner',
@@ -229,6 +203,31 @@ const abi = [
         'type': 'event'
     },
     {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'auctioneerAddress',
+                'type': 'address'
+            },
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'vehicleContractAddress',
+                'type': 'address'
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint32',
+                'name': 'index',
+                'type': 'uint32'
+            }
+        ],
+        'name': 'WithdrawAuctionRound',
+        'type': 'event'
+    },
+    {
         'inputs': [
             {
                 'internalType': 'uint256',
@@ -248,10 +247,28 @@ const abi = [
     },
     {
         'inputs': [],
-        'name': 'getAuctionRounds',
+        'name': 'factoryAddress',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address'
+            }
+        ],
+        'stateMutability': 'view',
+        'type': 'function'
+    },
+    {
+        'inputs': [],
+        'name': 'findNearestUnwithdrawedAuctionRound',
         'outputs': [
             {
                 'components': [
+                    {
+                        'internalType': 'uint32',
+                        'name': 'index',
+                        'type': 'uint32'
+                    },
                     {
                         'internalType': 'address',
                         'name': 'auctioneer',
@@ -266,6 +283,51 @@ const abi = [
                         'internalType': 'uint256',
                         'name': 'auctionRoundDate',
                         'type': 'uint256'
+                    },
+                    {
+                        'internalType': 'bool',
+                        'name': 'isWithdrawed',
+                        'type': 'bool'
+                    }
+                ],
+                'internalType': 'struct Vehicle.AuctionRound',
+                'name': '',
+                'type': 'tuple'
+            }
+        ],
+        'stateMutability': 'view',
+        'type': 'function'
+    },
+    {
+        'inputs': [],
+        'name': 'getAuctionRounds',
+        'outputs': [
+            {
+                'components': [
+                    {
+                        'internalType': 'uint32',
+                        'name': 'index',
+                        'type': 'uint32'
+                    },
+                    {
+                        'internalType': 'address',
+                        'name': 'auctioneer',
+                        'type': 'address'
+                    },
+                    {
+                        'internalType': 'uint256',
+                        'name': 'quantity',
+                        'type': 'uint256'
+                    },
+                    {
+                        'internalType': 'uint256',
+                        'name': 'auctionRoundDate',
+                        'type': 'uint256'
+                    },
+                    {
+                        'internalType': 'bool',
+                        'name': 'isWithdrawed',
+                        'type': 'bool'
                     }
                 ],
                 'internalType': 'struct Vehicle.AuctionRound[]',
@@ -296,14 +358,14 @@ const abi = [
             {
                 'components': [
                     {
+                        'internalType': 'bool',
+                        'name': 'isStart',
+                        'type': 'bool'
+                    },
+                    {
                         'internalType': 'address',
                         'name': 'vehicleAddress',
                         'type': 'address'
-                    },
-                    {
-                        'internalType': 'uint256',
-                        'name': 'deposit',
-                        'type': 'uint256'
                     },
                     {
                         'components': [
@@ -398,12 +460,12 @@ const abi = [
     },
     {
         'inputs': [],
-        'name': 'getDeposit',
+        'name': 'getStart',
         'outputs': [
             {
-                'internalType': 'uint256',
+                'internalType': 'bool',
                 'name': '',
-                'type': 'uint256'
+                'type': 'bool'
             }
         ],
         'stateMutability': 'view',
@@ -516,6 +578,25 @@ const abi = [
         'type': 'function'
     },
     {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'ownerAddress',
+                'type': 'address'
+            }
+        ],
+        'name': 'isOwner',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool'
+            }
+        ],
+        'stateMutability': 'view',
+        'type': 'function'
+    },
+    {
         'inputs': [],
         'name': 'owner',
         'outputs': [
@@ -538,12 +619,12 @@ const abi = [
     {
         'inputs': [
             {
-                'internalType': 'uint256',
-                'name': '_amount',
-                'type': 'uint256'
+                'internalType': 'bool',
+                'name': 'state',
+                'type': 'bool'
             }
         ],
-        'name': 'setDeposit',
+        'name': 'setStart',
         'outputs': [],
         'stateMutability': 'nonpayable',
         'type': 'function'
@@ -564,6 +645,13 @@ const abi = [
             }
         ],
         'name': 'transferOwnership',
+        'outputs': [],
+        'stateMutability': 'nonpayable',
+        'type': 'function'
+    },
+    {
+        'inputs': [],
+        'name': 'withdrawAuctionRound',
         'outputs': [],
         'stateMutability': 'nonpayable',
         'type': 'function'

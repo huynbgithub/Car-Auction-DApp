@@ -126,7 +126,7 @@ const Detail = () => {
                     setAuctionRounds={setAuctionRounds}
                     className='me-3' />
 
-                  <Button variant='danger'
+                  <Button variant='outline-danger'
                     onClick={async () => {
                       const receipt = await withdrawAuctionRound(
                         web3,
@@ -144,8 +144,10 @@ const Detail = () => {
                       const auctionRounds = await getAuctionRounds(address)
                       setAuctionRounds(auctionRounds)
                     }}
-                    disabled={auctionRounds?.length == 0}>Withdraw</Button>
-                </div> : <div> </div>}
+                    disabled={auctionRounds?.length == 0}>
+                    Withdraw </Button>
+                </div>
+                : <div> </div>}
               {isOwner && data?.isStart ? <div className='d-flex float-end'>
                 <Button variant='primary'
                   onClick={async () => {
@@ -156,7 +158,7 @@ const Detail = () => {
 
                     enableShow({
                       hasShow: true,
-                      variant: 'success',
+                      variant: 'outline-success',
                       content: <div>A bid has been submitted. Transaction hash: {<ScopeReference
                         hexString={receipt.transactionHash}
                         type='transaction' />}</div>

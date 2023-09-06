@@ -5,7 +5,11 @@ import { AuctionRound, VehicleData, parseAuctionRound, parseVehicleData } from '
 import { getHttpWeb3 } from './Web3Utils'
 
 const getVehicleContract = (web3, contractAddress) => {
-    return new web3.eth.Contract(abi, contractAddress)
+    try {
+        return new web3.eth.Contract(abi, contractAddress)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const setStart = async (
@@ -14,15 +18,19 @@ export const setStart = async (
     fromAddress,
     newValue
 ) => {
-    const data = getVehicleContract(web3, contractAddress).methods.setStart(newValue).encodeABI()
+    try {
+        const data = getVehicleContract(web3, contractAddress).methods.setStart(newValue).encodeABI()
 
-    return await web3.eth.sendTransaction({
-        from: fromAddress,
-        to: contractAddress,
-        gasPrice,
-        gas,
-        data
-    })
+        return await web3.eth.sendTransaction({
+            from: fromAddress,
+            to: contractAddress,
+            gasPrice,
+            gas,
+            data
+        })
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const createAuctionRound = async (
@@ -32,21 +40,25 @@ export const createAuctionRound = async (
     quantity,
     auctionRoundDate
 ) => {
-    const data = getVehicleContract(web3, contractAddress).methods.createAuctionRound(
-        quantity,
-        auctionRoundDate
-    ).encodeABI()
+    try {
+        const data = getVehicleContract(web3, contractAddress).methods.createAuctionRound(
+            quantity,
+            auctionRoundDate
+        ).encodeABI()
 
-    console.log(data)
+        console.log(data)
 
-    return await web3.eth.sendTransaction({
-        from: fromAddress,
-        to: contractAddress,
-        gasPrice,
-        gas,
-        data,
-        value: quantity
-    })
+        return await web3.eth.sendTransaction({
+            from: fromAddress,
+            to: contractAddress,
+            gasPrice,
+            gas,
+            data,
+            value: quantity
+        })
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const withdrawAuctionRound = async (
@@ -54,18 +66,22 @@ export const withdrawAuctionRound = async (
     contractAddress,
     fromAddress
 ) => {
-    const data = getVehicleContract(web3, contractAddress).methods.withdrawAuctionRound(
-    ).encodeABI()
+    try {
+        const data = getVehicleContract(web3, contractAddress).methods.withdrawAuctionRound(
+        ).encodeABI()
 
-    console.log(data)
+        console.log(data)
 
-    return await web3.eth.sendTransaction({
-        from: fromAddress,
-        to: contractAddress,
-        gasPrice,
-        gas,
-        data
-    })
+        return await web3.eth.sendTransaction({
+            from: fromAddress,
+            to: contractAddress,
+            gasPrice,
+            gas,
+            data
+        })
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const submitAuction = async (
@@ -73,54 +89,78 @@ export const submitAuction = async (
     contractAddress,
     fromAddress
 ) => {
-    const data = getVehicleContract(web3, contractAddress).methods.submitAuction(
-    ).encodeABI()
+    try {
+        const data = getVehicleContract(web3, contractAddress).methods.submitAuction(
+        ).encodeABI()
 
-    console.log(data)
+        console.log(data)
 
-    return await web3.eth.sendTransaction({
-        from: fromAddress,
-        to: contractAddress,
-        gasPrice,
-        gas,
-        data
-    })
+        return await web3.eth.sendTransaction({
+            from: fromAddress,
+            to: contractAddress,
+            gasPrice,
+            gas,
+            data
+        })
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const getVehicleData = async (
     vehicleAddress
 ) => {
-    const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.getData().call()
-    return parseVehicleData(data)
+    try {
+        const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.getData().call()
+        return parseVehicleData(data)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const getAuctionRounds = async (
     vehicleAddress
 ) => {
-    const datas = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.getAuctionRounds().call()
-    return datas.map(data => parseAuctionRound(data))
+    try {
+        const datas = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.getAuctionRounds().call()
+        return datas.map(data => parseAuctionRound(data))
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const getIsOwner = async (
     vehicleAddress,
     ownerAddress
 ) => {
-    const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.isOwner(ownerAddress).call()
-    return data
+    try {
+        const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.isOwner(ownerAddress).call()
+        return data
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const getOwner = async (
     vehicleAddress
 ) => {
-    const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.owner().call()
-    return data
+    try {
+        const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.owner().call()
+        return data
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const findNearestUnwithdrawedAuctionRound = async (
     vehicleAddress
 ) => {
-    const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.findNearestUnwithdrawedAuctionRound().call()
-    return parseAuctionRound(data)
+    try {
+        const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.findNearestUnwithdrawedAuctionRound().call()
+        return parseAuctionRound(data)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 

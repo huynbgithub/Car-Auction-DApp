@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Button, Card, Form } from 'react-bootstrap'
-import { getOwnedDeployedVehicleDatas } from '../contracts/VehicleFactoryContract'
-import { Link } from "react-router-dom";
+import { getDeployedVehicleDatas } from '../contracts/VehicleFactoryContract'
 import { Web3Context } from "../App";
-import VehicleCard from '../components/VehicleCard'
+import AllVehicleCard from '../components/AllVehicleCard'
 import NotificationAlert from '../components/NotificationAlert'
+import { Dropdown } from 'react-bootstrap';
 
 export default function Home() {
 
@@ -13,13 +12,14 @@ export default function Home() {
     const { balance, setBalance } = useContext(Web3Context);
 
     const [cars, setCars] = useState(null);
+    const [filter, setFilter] = useState(true);
 
     useEffect(() => {
         loadCars();
     }, [cars]);
 
     async function loadCars() {
-        const carsData = await getOwnedDeployedVehicleDatas(web3, account).catch(error => console.log(error));
+        const carsData = await getDeployedVehicleDatas(web3, account).catch(error => console.log(error));
         setCars(carsData);
     }
 
@@ -36,10 +36,35 @@ export default function Home() {
                 <NotificationAlert
                     ref={notificationRef}
                 />
+                <div>
+                    <Dropdown className="float-end">
+                        <Dropdown.Toggle variant='outline-success' id='dropdown'>
+                            <span>Filter Auction Status</span>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item
+                                onClick={(event) => {
+                                    setFilter(true)
+                                }}
+                            >
+                                Started
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={(event) => {
+                                    setFilter(false)
+                                }}
+                            >
+                                Not Started
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
                 {cars && cars.map((car, index) => (
-                    <div className="col-3 mt-3" key={index}>
-                        <VehicleCard data={car} />
-                    </div>
+                    (car.isStart == filter &&
+                        <div className="col-3 mt-3" key={index}>
+                            <AllVehicleCard data={car} />
+                        </div>
+                    )
                 ))}
             </div>
         </div>

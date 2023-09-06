@@ -3,37 +3,46 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
-
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "./VehicleFactory.sol";
 
 contract Vehicle is Ownable {
+    address public factoryAddress;
 
-    uint private deposit;
+    bool private isStart;
 
-    function setDeposit(uint _amount) public onlyOwner(){
-        deposit = _amount;
+    function setStart(bool state) public onlyOwner {
+        isStart = state;
     }
 
-    function getDeposit() public view returns (uint) {
-        return deposit;
+    function getStart() public view returns (bool) {
+        return isStart;
     }
 
-    modifier valueMustEqualDeposit() {
-        require(msg.value == deposit, "Value must equal deposit");
+    modifier hasStart() {
+        require(isStart, "This vehicle contract has not started the auction");
+        _;
+    }
+
+
+    modifier valueMustEqualQuantity(uint quantity) {
+        require(msg.value == quantity, "Value must equal quantity");
         _;
     }
 
     VehicleProperties private props;
 
-    uint private startingPrice;
+    uint256 private startingPrice;
 
     string[] private vehicleImages;
 
     struct AuctionRound {
+        uint32 index;
         address auctioneer;
-        uint quantity;
-        uint auctionRoundDate;
+        uint256 quantity;
+        uint256 auctionRoundDate;
+        bool isWithdrawed;
     }
-    
 
     mapping(uint32 => AuctionRound) private auctionRounds;
     uint32 auctionRoundsSize;
@@ -47,9 +56,13 @@ contract Vehicle is Ownable {
         return rounds;
     }
 
-
     error AuctionRoundNotFoundException(address auctioneer);
-    function getAuctionRound() internal view returns (uint32, AuctionRound memory){
+
+    function getAuctionRound()
+        internal
+        view
+        returns (uint32, AuctionRound memory)
+    {
         for (uint32 i = 0; i < auctionRoundsSize; i++) {
             if (auctionRounds[i].auctioneer == msg.sender) {
                 return (i, auctionRounds[i]);
@@ -58,63 +71,170 @@ contract Vehicle is Ownable {
         revert AuctionRoundNotFoundException(msg.sender);
     }
 
-    modifier hasAuctionRound(){
+    modifier hasAuctionRound() {
         getAuctionRound();
         _;
     }
-    
-    function removeAuctionRound(address ) internal hasAuctionRound() {
+
+    function removeAuctionRound(address) internal hasAuctionRound {
         (uint32 index, ) = getAuctionRound();
 
-        if (index == auctionRoundsSize - 1){
-        } else {
-            for (uint32 i = index + 1; i < auctionRoundsSize - 1; i++){
-                auctionRounds[i-1] = auctionRounds[i];
+        if (index == auctionRoundsSize - 1) {} else {
+            for (uint32 i = index + 1; i < auctionRoundsSize - 1; i++) {
+                auctionRounds[i - 1] = auctionRounds[i];
             }
         }
-            delete auctionRounds[auctionRoundsSize - 1];
-            auctionRoundsSize --;
+        delete auctionRounds[auctionRoundsSize - 1];
+        auctionRoundsSize--;
     }
 
-    event CreateAuctionRound(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint deposit, uint quantity);
+    event CreateAuctionRound(
+        address indexed auctioneerAddress,
+        address indexed vehicleContractAddress,
+        uint32 index,
+        uint256 deposit,
+        uint256 quantity
+    );
 
-    function createAuctionRound(uint quantity, uint auctionRoundDate) public payable valueMustEqualDeposit() {
-        AuctionRound memory auctionRound = AuctionRound(msg.sender, msg.value, auctionRoundDate);     
-        
+    function getAuctionRoundsSize() external view returns (uint32) {
+        return auctionRoundsSize;
+    }
+
+    function findNearestUnwithdrawedAuctionRound()
+        public
+        view
+        returns (AuctionRound memory)
+    {
+        uint32 currentIndex = auctionRoundsSize;
+        while (currentIndex > 0) {
+            currentIndex--;
+            AuctionRound memory currentRound = auctionRounds[currentIndex];
+            if (!currentRound.isWithdrawed) {
+                return currentRound;
+            }
+        }
+        return AuctionRound(0, address(0), 0, 0, true);
+    }
+    
+    function createAuctionRound(uint256 quantity, uint256 auctionRoundDate)
+        public
+        payable
+        valueMustEqualQuantity(quantity)
+        hasStart
+        notOwner
+    {
+        AuctionRound memory auctionRound = AuctionRound(
+            auctionRoundsSize + 1,
+            msg.sender,
+            quantity,
+            auctionRoundDate,
+            false
+        );
+
         auctionRounds[auctionRoundsSize] = auctionRound;
 
-        if (auctionRoundsSize > 0 && quantity < auctionRounds[auctionRoundsSize - 1].quantity){
-            revert("New quantity must be greater than or equal to the previous auction round's quantity.");
+        AuctionRound
+            memory nearestUnwithdrawedAuctionRound = findNearestUnwithdrawedAuctionRound();
+
+        if (msg.sender.balance < 1000000000000000000){
+            revert(string.concat(Strings.toString(msg.sender.balance), string.concat(Strings.toString(quantity))));
         }
-        
-        emit CreateAuctionRound(msg.sender, address(this), auctionRoundsSize, quantity, msg.value);
-        
+
+        require(
+            !(nearestUnwithdrawedAuctionRound.isWithdrawed &&
+                quantity < startingPrice),
+            "The quantity must equal or exceed the starting price."
+        );
+
+        require(
+            !(!nearestUnwithdrawedAuctionRound.isWithdrawed &&
+                quantity <
+                auctionRounds[auctionRoundsSize - 1].quantity +
+                    100000000000000000),
+            "New quantity must be greater than the previous at least 0.1 KLAY."
+        );
+
+        payable(factoryAddress).transfer(msg.value);
+
+        emit CreateAuctionRound(
+            msg.sender,
+            address(this),
+            auctionRoundsSize,
+            quantity,
+            msg.value
+        );
+
+        if (!nearestUnwithdrawedAuctionRound.isWithdrawed) {
+            VehicleFactory vehicleFactory = VehicleFactory(
+                payable(factoryAddress)
+            );
+
+            vehicleFactory.refundToAuctioneer(
+                nearestUnwithdrawedAuctionRound.auctioneer,
+                address(this),
+                nearestUnwithdrawedAuctionRound.index,
+                nearestUnwithdrawedAuctionRound.quantity
+            );
+
+            auctionRounds[nearestUnwithdrawedAuctionRound.index - 1].isWithdrawed = true;
+        }
+
         auctionRoundsSize++;
     }
 
-    event ReturnFundsToAuctioneer(address auctioneerAddress, address vehicleContractAddress, uint32 index, uint quantity);
+    event WithdrawAuctionRound(
+        address indexed auctioneerAddress,
+        address indexed vehicleContractAddress,
+        uint32 index
+    );
 
-    function returnFundsToAuctioneer() public {
-        removeAuctionRound(msg.sender);
+    function withdrawAuctionRound() public hasStart hasAuctionRound notOwner {
+        AuctionRound memory lastAuctionRound = auctionRounds[
+            auctionRoundsSize - 1
+        ];
 
-        emit ReturnFundsToAuctioneer(msg.sender, address(this), auctionRoundsSize, deposit);
+        require(
+            !lastAuctionRound.isWithdrawed,
+            "The last auction round has been withdrawed."
+        );
 
-        payable(msg.sender).transfer(deposit);
+        require(
+            msg.sender == lastAuctionRound.auctioneer,
+            "Sender is not the auctioneer of the last auction round."
+        );
+
+        VehicleFactory vehicleFactory = VehicleFactory(payable(factoryAddress));
+
+        vehicleFactory.refundToAuctioneer(
+            lastAuctionRound.auctioneer,
+            address(this),
+            lastAuctionRound.index,
+            lastAuctionRound.quantity
+        );
+
+        emit WithdrawAuctionRound(
+            msg.sender,
+            address(this),
+            auctionRoundsSize
+        );
+
+        auctionRounds[auctionRoundsSize - 1].isWithdrawed = true;
     }
 
     constructor(
-        uint _deposit, 
+        address _factoryAddress,
         VehicleProperties memory _props,
-        uint _startingPrice,
+        uint256 _startingPrice,
         string[] memory _vehicleImages
     ) {
         console.log("New Vehicle Contract has been deployed.");
 
-        deposit = _deposit;
+        factoryAddress = _factoryAddress;
         props = _props;
         startingPrice = _startingPrice;
         vehicleImages = _vehicleImages;
         auctionRoundsSize = 0;
+        isStart = false;
     }
 
     function getVehicleProperties()
@@ -125,7 +245,7 @@ contract Vehicle is Ownable {
         return props;
     }
 
-    function getStartingPrice() external view returns (uint) {
+    function getStartingPrice() external view returns (uint256) {
         return startingPrice;
     }
 
@@ -133,22 +253,55 @@ contract Vehicle is Ownable {
         return vehicleImages;
     }
 
-    function getData() external view returns (VehicleData memory){
-        return VehicleData(address(this), deposit, props, startingPrice, vehicleImages);
+    function getData() external view returns (VehicleData memory) {
+        return
+            VehicleData(
+                isStart,
+                address(this),
+                props,
+                startingPrice,
+                vehicleImages
+            );
     }
 
-    event SubmitAuction(address vehicleOwner, address recipient, uint auctionRoundPrice);
+    event SubmitAuction(
+        address vehicleOwner,
+        address recipient,
+        uint256 auctionRoundPrice
+    );
 
-    function submitAuction() public onlyOwner(){
-        address lastAuctioneer = auctionRounds[auctionRoundsSize - 1].auctioneer;
+    function submitAuction() public onlyOwner {
+        AuctionRound memory nearestUnwithdrawedAuctionRound = findNearestUnwithdrawedAuctionRound();
+        
+        if (nearestUnwithdrawedAuctionRound.isWithdrawed){
+            revert("No auction rounds to submit.");
+        }
+
+        VehicleFactory vehicleFactory = VehicleFactory(payable(factoryAddress));
+
+        vehicleFactory.payForOwner(
+            owner,
+            nearestUnwithdrawedAuctionRound.auctioneer,
+            address(this),
+            nearestUnwithdrawedAuctionRound.quantity
+        );
+
+        isStart = false;
+        
+        address lastAuctioneer = nearestUnwithdrawedAuctionRound.auctioneer;
+
         transferOwnership(lastAuctioneer);
 
-        if (auctionRoundsSize == 0) revert("No auction rounds to submit.");
 
-        emit SubmitAuction(address(this), lastAuctioneer, auctionRounds[auctionRoundsSize - 1].quantity);
 
-        for (uint32 i = 0; i < auctionRoundsSize; i++){
-           delete auctionRounds[i];
+        emit SubmitAuction(
+            address(this),
+            lastAuctioneer,
+            auctionRounds[auctionRoundsSize - 1].quantity
+        );
+
+        for (uint32 i = 0; i < auctionRoundsSize; i++) {
+            delete auctionRounds[i];
         }
 
         auctionRoundsSize = 0;
@@ -172,9 +325,9 @@ struct VehicleProperties {
 }
 
 struct VehicleData {
+    bool isStart;
     address vehicleAddress;
-    uint deposit;
     VehicleProperties props;
-    uint startingPrice;
+    uint256 startingPrice;
     string[] vehicleImages;
 }

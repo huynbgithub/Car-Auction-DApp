@@ -28,22 +28,23 @@ const CreateVehicleModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            ownerFullName: '',
-            ownerAddress: '',
-            brand: '',
-            vehicleType: '',
-            color: '',
-            seatCapacity: 0,
-            origin: '',
-            licensePlate: '',
-            engineNumber: '',
-            chassisNumber: '',
-            modelCode: '',
-            capacity: 0,
-            firstRegistrationDate: formattedDate,
-            images: [],
+            ownerFullName: 'Nguyen Van A',
+            ownerAddress: '123 Main Street',
+            brand: 'Toyota',
+            vehicleType: 'Sedan',
+            color: 'Blue',
+            seatCapacity: 4,
+            origin: 'USA',
+            licensePlate: '12AB-34567',
+            engineNumber: 'ABC123456789',
+            chassisNumber: 'XYZ987654321',
+            modelCode: 'M123',
+            capacity: 4,
+            firstRegistrationDate: '2023-09-07',
+            images: null,
             startingPrice: 1,
         },
+
         validationSchema: Yup.object({
             ownerFullName: Yup.string().required('Owner Full Name is required'),
             ownerAddress: Yup.string().required('Owner Address is required'),
@@ -54,9 +55,15 @@ const CreateVehicleModal = () => {
                 .min(1, 'Seat Capacity must be at least 1')
                 .required('Seat Capacity is required'),
             origin: Yup.string().required('Origin is required'),
-            licensePlate: Yup.string().required('License Plate is required'),
-            engineNumber: Yup.string().required('Engine Number is required'),
-            chassisNumber: Yup.string().required('Chassis Number is required'),
+            licensePlate: Yup.string()
+                .matches(/^\d{2}[A-Z0-9]{1,2}-\d{5}$/, 'License Plate should be in correct format')
+                .required('License Plate is required'),
+            engineNumber: Yup.string()
+                .matches(/^[A-Z0-9]{1,12}$/, 'Engine Number should be 1-12 uppercase letters or digits')
+                .required('Engine Number is required'),
+            chassisNumber: Yup.string()
+                .matches(/^[A-Z0-9]{1,17}$/, 'Chassis Number should be 1-17 uppercase letters or digits')
+                .required('Chassis Number is required'),
             modelCode: Yup.string().required('Model Code is required'),
             capacity: Yup.number()
                 .min(1, 'Capacity must be at least 1')
@@ -64,9 +71,9 @@ const CreateVehicleModal = () => {
             startingPrice: Yup.number()
                 .min(1, 'Starting Price must be equal or more than 1 KLAY')
                 .required('Starting Price is required'),
-            images: Yup.array()
-                .required('Vehicle Images is required'),
+            images: Yup.array().required('Vehicle Images is required'),
         }),
+
         onSubmit: values => {
             console.log(values)
 

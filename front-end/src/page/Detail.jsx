@@ -210,7 +210,7 @@ const Detail = () => {
               <ListGroup.Item><b>Chassis Number: </b>{data?.props.chassisNumber}</ListGroup.Item>
               <ListGroup.Item><b>Model Code: </b>{data?.props.modelCode}</ListGroup.Item>
               <ListGroup.Item><b>Capacity: </b>{data?.props.capacity}</ListGroup.Item>
-              <ListGroup.Item><b>First Registration Date: </b>{new Date(Number(data?.props.firstRegistrationDate)).toLocaleDateString()}</ListGroup.Item>
+              <ListGroup.Item><b>First Registration Date: </b>{new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).format(data?.props.firstRegistrationDate)}</ListGroup.Item>
             </ListGroup>
           </Col>
         </Row>

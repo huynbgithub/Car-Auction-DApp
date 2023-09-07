@@ -1,20 +1,12 @@
-// import { Navigate, Outlet } from "react-router-dom";
-// import useAuth from "../utils/useAuth";
-// import { toastError } from "../components/Toast";
+import { Navigate, Outlet } from "react-router-dom";
 
-// const AdminRoute = () => {
-//     const { userRole } = useAuth();
-//     if (userRole === undefined) {
-//         toastError("Please Login First");
-//         return <Navigate to="/login" replace />;
-//     } else if (userRole === null) {
-//         return <Outlet />;
-//     }
-//     return userRole === 'admin' || userRole === 'ADMIN' || userRole === null ? (
-//         <Outlet />
-//     ) : (
-//         <Navigate to="/403" replace />
-//     );
-// };
+const AdminRoute = () => {
+    // return adminName == 'admin' && password == "1" ? (
+    //     <Outlet />
+    // ) : (
+    //     <Navigate to="/login" replace />
+    // );
+    return <Outlet />
+};
 
-// export default AdminRoute;
+export default AdminRoute;

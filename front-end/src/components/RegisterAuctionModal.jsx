@@ -62,15 +62,17 @@ const RegisterAuctionModal = (props) => {
                     (values.quantity * exponent).toString(),
                     date.toString()
                 )
-
-                props.enableShow({
-                    hasShow: true,
-                    variant: 'success',
-                    content: <div>New auction has been created. Transaction hash: {<ScopeReference
-                        hexString={receipt.transactionHash}
-                        type='transaction' />}</div>
-                })
-
+                try {
+                    props.enableShow({
+                        hasShow: true,
+                        variant: 'success',
+                        content: <div>New auction has been created. Transaction hash: {<ScopeReference
+                            hexString={receipt.transactionHash}
+                            type='transaction' />}</div>
+                    })
+                } catch (e) {
+                    console.log(e)
+                }
                 props.setAuctionRounds(await getAuctionRounds(props.contractAddress))
 
                 handleClose()

@@ -132,15 +132,17 @@ const Detail = () => {
                         web3,
                         address,
                         account)
-
-                      enableShow({
-                        hasShow: true,
-                        variant: 'success',
-                        content: <div>A bid has been withdrawed. Transaction hash: {<ScopeReference
-                          hexString={receipt.transactionHash}
-                          type='transaction' />}</div>
-                      })
-
+                      try {
+                        enableShow({
+                          hasShow: true,
+                          variant: 'success',
+                          content: <div>A bid has been withdrawed. Transaction hash: {<ScopeReference
+                            hexString={receipt.transactionHash}
+                            type='transaction' />}</div>
+                        })
+                      } catch (e) {
+                        console.log(e)
+                      }
                       const auctionRounds = await getAuctionRounds(address)
                       setAuctionRounds(auctionRounds)
                     }}
@@ -155,14 +157,17 @@ const Detail = () => {
                       web3,
                       address,
                       account)
-
-                    enableShow({
-                      hasShow: true,
-                      variant: 'outline-success',
-                      content: <div>A bid has been submitted. Transaction hash: {<ScopeReference
-                        hexString={receipt.transactionHash}
-                        type='transaction' />}</div>
-                    })
+                    try {
+                      enableShow({
+                        hasShow: true,
+                        variant: 'outline-success',
+                        content: <div>A bid has been submitted. Transaction hash: {<ScopeReference
+                          hexString={receipt.transactionHash}
+                          type='transaction' />}</div>
+                      })
+                    } catch (e) {
+                      console.log(e)
+                    }
 
                     const data = await getVehicleData(address)
                     setData(data)

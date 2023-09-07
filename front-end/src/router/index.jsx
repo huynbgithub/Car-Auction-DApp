@@ -1,15 +1,13 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import PublicRoute from "./PublicRoute"
-import AdminRoute from "./AdminRoute"
 import PublicLayout from "../components/PublicLayout";
-import AdminLayout from "../components/AdminLayout";
 import Home from "../page/Home"
 import Detail from "../page/Detail";
 import Wallet from "../page/Wallet";
 import Assets from "../page/Assets";
-import AdminLogin from "../page/AdminLogin.jsx";
 import Admin from "../page/Admin";
+
 const publicRoute = [
     {
         index: true,
@@ -41,21 +39,13 @@ const publicRoute = [
     },
     {
         index: true,
-        path: "login",
-        component: <AdminLogin />,
-        exact: true,
-        restrict: true,
-    },
-];
-const adminRoute = [
-    {
-        index: true,
         path: "admin",
         component: <Admin />,
         exact: true,
         restrict: true,
     },
 ];
+const adminRoute = [];
 const employeeRoute = [];
 
 const RouterComponent = () => {
@@ -67,20 +57,6 @@ const RouterComponent = () => {
                 <Route exact path="/" element={<PublicRoute />}>
                     <Route exact element={<PublicLayout />}>
                         {publicRoute.map((route) => (
-                            <Route
-                                index={route.index}
-                                key={route.path}
-                                path={route.path}
-                                element={route.component}
-                                exact={route.exact}
-                                restrict={route.restrict}
-                            />
-                        ))}
-                    </Route>
-                </Route>
-                <Route exact element={<AdminRoute />}>
-                    <Route exact element={<AdminLayout />}>
-                        {adminRoute.map((route) => (
                             <Route
                                 index={route.index}
                                 key={route.path}
@@ -106,7 +82,20 @@ const RouterComponent = () => {
                         ))}
                     </Route>
                 </Route>
-
+                <Route exact element={<AdminRoute />}>
+                    <Route exact element={<AdminLayout />}>
+                        {adminRoute.map((route) => (
+                            <Route
+                                index={route.index}
+                                key={route.path}
+                                path={route.path}
+                                element={route.component}
+                                exact={route.exact}
+                                restrict={route.restrict}
+                            />
+                        ))}
+                    </Route>
+                </Route>
                 <Route path="/payment/result" element={<Payment />} />
 
                 <Route path="/404" element={<ErrorPage />} />

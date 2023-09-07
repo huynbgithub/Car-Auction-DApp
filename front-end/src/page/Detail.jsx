@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getAuctionRounds, getIsOwner, getOwner, getVehicleData, submitAuction, withdrawAuctionRound } from '../contracts/VehicleContract'
+import { getAuctionRounds, getIsOwner, getOwner, getVehicleData, submitAuction, withdrawAuctionRound, approveVehicle } from '../contracts/VehicleContract'
 import { AuctionRound, VehicleData } from '../utils/ParseUtils'
 import { Carousel, Col, Row, Image, Container, ListGroup, InputGroup, Form, FloatingLabel, Button, Table } from 'react-bootstrap'
-import { AuctionStatus, ScopeReference } from '../components/Utils'
+import { AuctionStatus, ApprovalStatus, ScopeReference } from '../components/Utils'
 import Web3, { Address } from 'web3'
 import { exponent } from '../utils/Constants'
 import { Web3Context } from '../App'
@@ -25,12 +25,10 @@ const Detail = () => {
   useEffect(() => {
     if (balance) {
       const handleEffect = async () => {
-        console.log(balance)
         const data = await getVehicleData(address)
         setData(data)
 
         const auctionRounds = await getAuctionRounds(address)
-        console.log(auctionRounds)
         setAuctionRounds(auctionRounds)
 
         const owner = await getOwner(address)
@@ -38,7 +36,6 @@ const Detail = () => {
         setOwner(owner)
 
         if (balance && balance != null) {
-          console.log(account)
           const isOwner = await getIsOwner(address, account)
           setIsOwner(isOwner)
         }
@@ -51,7 +48,7 @@ const Detail = () => {
     const images = []
     data?.vehicleImages.forEach(element =>
       images.push(<Carousel.Item>
-        <Image thumbnail src={element} />
+        <Image thumbnail src={element} style={{ width: '100%' }} />
       </Carousel.Item>))
     return images
   }
@@ -182,6 +179,33 @@ const Detail = () => {
                 > End Auction </Button>
               </div> : <div> </div>}
 
+              {account == "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" ?
+                <div className='d-flex float-end'>
+                  <Button variant='success'
+                    onClick={async () => {
+                      console.log(data.isApproved)
+                      const receipt = await approveVehicle(
+                        web3,
+                        address,
+                        account);
+                      try {
+                        enableShow({
+                          hasShow: true,
+                          variant: 'outline-success',
+                          content: <div>This car has been approved by admin. Transaction hash: {<ScopeReference
+                            hexString={receipt.transactionHash}
+                            type='transaction' />}</div>
+                        })
+                      } catch (e) {
+                        console.log(e)
+                      }
+                    }
+                    }> Approve </Button>
+                </div> : <div> </div>}
+              {/* {account == "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" && data?.isApproved == true ?
+                <div className='d-flex float-end'>
+                  <Button variant='primary' onClick={ }> Disapprove </Button>
+                </div> : <div> </div>} */}
             </div>
           </Col>
           <Col xl={6}>
@@ -193,6 +217,7 @@ const Detail = () => {
 
             </div>
 
+            <ApprovalStatus className='mb-2' type={data?.isApproved} />
             <AuctionStatus className='mb-2' type={data?.isStart} />
 
             {

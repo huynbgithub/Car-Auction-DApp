@@ -12,6 +12,26 @@ const getVehicleContract = (web3, contractAddress) => {
     }
 }
 
+export const approveVehicle = async (
+    web3,
+    contractAddress,
+    fromAddress,
+) => {
+    try {
+        const data = getVehicleContract(web3, contractAddress).methods.approveVehicle().encodeABI()
+
+        return await web3.eth.sendTransaction({
+            from: fromAddress,
+            to: contractAddress,
+            gasPrice,
+            gas,
+            data
+        })
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 export const setStart = async (
     web3,
     contractAddress,

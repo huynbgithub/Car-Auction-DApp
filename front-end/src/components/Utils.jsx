@@ -18,7 +18,16 @@ export const AuctionStatus = (props) => {
     return (
         <div style={{ color: props.type ? 'green' : 'red' }} className={props.className + ' d-flex align-items-center'}>
             {props.type ? <BsFillPatchCheckFill className='me-2' size={24} /> : <BsFillPatchExclamationFill className='me-2' size={24} />}
-            {props.type ? 'Auctioned' : 'Not auctioned'}
+            {props.type ? 'Auctioned' : 'Not In Auction'}
+        </div>
+    )
+}
+
+export const ApprovalStatus = (props) => {
+    return (
+        <div style={{ color: props.type ? 'green' : 'red' }} className={props.className + ' d-flex align-items-center'}>
+            {props.type ? <BsFillPatchCheckFill className='me-2' size={24} /> : <BsFillPatchExclamationFill className='me-2' size={24} />}
+            {props.type ? 'Admin Approved' : 'Not Approved By Admin'}
         </div>
     )
 }

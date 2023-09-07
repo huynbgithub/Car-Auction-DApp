@@ -67,9 +67,11 @@ export default function Navbar() {
                                 </li>
                             </>
                         )}
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">Are you admin?</Link>
-                        </li>
+                        {account && account == "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" &&
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin">Admin</Link>
+                            </li>
+                        }
                     </ul>
                 </nav>
                 {!account && (

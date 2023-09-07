@@ -64,7 +64,7 @@ const Detail = () => {
           <td> {element.index} </td>
           <td> <ScopeReference hexString={element.auctioneer} type='address' /> </td>
           <td> {Number(element.quantity) / exponent} KLAY </td>
-          <td> {new Date(Number(element.auctionRoundDate)).toLocaleString()}</td>
+          <td> {new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).format(element.auctionRoundDate)}</td>
           <td> {element.isWithdrawed ? 'Yes' : 'No'}</td>
         </tr>
       ))

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { getDeployedVehicleDatas } from '../contracts/VehicleFactoryContract'
 import { Web3Context } from "../App";
-import AdminVehicleCard from '../components/AdminVehicleCard'
+import AdminVehicleCard from '../components/AllVehicleCard'
 import NotificationAlert from '../components/NotificationAlert'
-import { Dropdown } from 'react-bootstrap';
 
 export default function Admin() {
 
@@ -12,7 +11,6 @@ export default function Admin() {
     const { balance, setBalance } = useContext(Web3Context);
 
     const [cars, setCars] = useState(null);
-    const [filter, setFilter] = useState(false);
 
     useEffect(() => {
         loadCars();
@@ -29,44 +27,19 @@ export default function Admin() {
     return (
         <div className="container-fluid">
             <div className="container-fluid p-5 bg-light text-danger text-center">
-                <h1>Welcome Admin</h1>
-                <p>Car Approval Management</p>
+                <h1>Car Approval Management</h1>
+                <p>Welcome Admin!</p>
             </div>
             <div className="mt-3 row">
                 <NotificationAlert
                     ref={notificationRef}
                 />
-                <div>
-                    <Dropdown className="float-end">
-                        <Dropdown.Toggle variant='outline-success' id='dropdown'>
-                            <span>Filter Approval Status</span>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item
-                                onClick={(event) => {
-                                    setFilter(false)
-                                }}
-                            >
-                                Not Approved
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                                onClick={(event) => {
-                                    setFilter(true)
-                                }}
-                            >
-                                Approved
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </div>
                 {cars && cars.map((car, index) => (
-                    (car.isApproved == filter &&
-                        <div className="col-3 mt-3" key={index}>
-                            <AdminVehicleCard data={car} />
-                        </div>
-                    )
+                    <div className="col-3 mt-3" key={index}>
+                        <AdminVehicleCard data={car} />
+                    </div>
                 ))}
             </div>
         </div>
     );
-}
+};

@@ -32,6 +32,17 @@ export const approveVehicle = async (
     }
 }
 
+export const getIsApproved = async (
+    vehicleAddress
+) => {
+    try {
+        const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.isApproved().call()
+        return data
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 export const setStart = async (
     web3,
     contractAddress,

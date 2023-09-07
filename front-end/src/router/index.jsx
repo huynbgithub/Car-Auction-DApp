@@ -45,8 +45,8 @@ const publicRoute = [
         restrict: true,
     },
 ];
-const adminRoute = [];
-const employeeRoute = [];
+// const adminRoute = [];
+// const employeeRoute = [];
 
 const RouterComponent = () => {
     // useAutoLogout(jwt);

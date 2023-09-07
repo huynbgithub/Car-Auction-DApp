@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getAuctionRounds, getIsOwner, getOwner, getVehicleData, submitAuction, withdrawAuctionRound, approveVehicle } from '../contracts/VehicleContract'
+import { getAuctionRounds, getIsOwner, getOwner, getVehicleData, submitAuction, withdrawAuctionRound, approveVehicle, getIsApproved } from '../contracts/VehicleContract'
 import { AuctionRound, VehicleData } from '../utils/ParseUtils'
 import { Carousel, Col, Row, Image, Container, ListGroup, InputGroup, Form, FloatingLabel, Button, Table } from 'react-bootstrap'
 import { AuctionStatus, ApprovalStatus, ScopeReference } from '../components/Utils'
@@ -20,10 +20,11 @@ const Detail = () => {
   const [data, setData] = useState(null)
   const [auctionRounds, setAuctionRounds] = useState(null)
   const [owner, setOwner] = useState(null)
+  const [approved, setApproved] = useState(null)
   const [isOwner, setIsOwner] = useState(true)
 
   useEffect(() => {
-    if (balance) {
+    if (account) {
       const handleEffect = async () => {
         const data = await getVehicleData(address)
         setData(data)
@@ -32,23 +33,25 @@ const Detail = () => {
         setAuctionRounds(auctionRounds)
 
         const owner = await getOwner(address)
-
         setOwner(owner)
 
-        if (balance && balance != null) {
+        const approved = await getIsApproved(address)
+        setApproved(approved);
+
+        if (account && account != null) {
           const isOwner = await getIsOwner(address, account)
           setIsOwner(isOwner)
         }
       }
       handleEffect()
     }
-  }, [balance])
+  }, [account])
 
   const renderImages = () => {
     const images = []
     data?.vehicleImages.forEach(element =>
       images.push(<Carousel.Item>
-        <Image thumbnail src={element} style={{ width: '100%' }} />
+        <Image thumbnail src={element} style={{ width: '100%', height: '400px' }} />
       </Carousel.Item>))
     return images
   }
@@ -112,7 +115,7 @@ const Detail = () => {
                 }
 
               </Table>
-              {!isOwner && data?.isStart ?
+              {account != "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" && !isOwner && data?.isStart ?
                 <div className='d-flex float-end'>
 
                   <RegisterAuctionModal
@@ -147,7 +150,7 @@ const Detail = () => {
                     Withdraw </Button>
                 </div>
                 : <div> </div>}
-              {isOwner && data?.isStart ? <div className='d-flex float-end'>
+              {account != "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" && isOwner && data?.isStart ? <div className='d-flex float-end'>
                 <Button variant='primary'
                   onClick={async () => {
                     const receipt = await submitAuction(
@@ -178,12 +181,10 @@ const Detail = () => {
                   }
                 > End Auction </Button>
               </div> : <div> </div>}
-
-              {account == "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" ?
+              {account == "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" && !approved ?
                 <div className='d-flex float-end'>
                   <Button variant='success'
                     onClick={async () => {
-                      console.log(data.isApproved)
                       const receipt = await approveVehicle(
                         web3,
                         address,
@@ -202,10 +203,6 @@ const Detail = () => {
                     }
                     }> Approve </Button>
                 </div> : <div> </div>}
-              {/* {account == "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" && data?.isApproved == true ?
-                <div className='d-flex float-end'>
-                  <Button variant='primary' onClick={ }> Disapprove </Button>
-                </div> : <div> </div>} */}
             </div>
           </Col>
           <Col xl={6}>
@@ -217,7 +214,7 @@ const Detail = () => {
 
             </div>
 
-            <ApprovalStatus className='mb-2' type={data?.isApproved} />
+            <ApprovalStatus className='mb-2' type={approved} />
             <AuctionStatus className='mb-2' type={data?.isStart} />
 
             {

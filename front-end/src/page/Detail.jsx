@@ -60,7 +60,7 @@ const Detail = () => {
         <tr>
           <td> {element.index} </td>
           <td> <ScopeReference hexString={element.auctioneer} type='address' /> </td>
-          <td> {Number(element.quantity) / exponent} KLAY </td>
+          <td> {element.quantity / exponent} KLAY </td>
           <td> {new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).format(element.auctionRoundDate)}</td>
           <td> {element.isWithdrawed ? 'Yes' : 'No'}</td>
         </tr>
@@ -85,7 +85,7 @@ const Detail = () => {
               <p className='h5'>Auction Results</p>
 
               <div className='mb-2 d-flex align-items-center'>
-                <BsCoin size={24} className='me-2' />  {Number(data?.startingPrice) / exponent} KLAY
+                <BsCoin size={24} className='me-2' />  {data?.startingPrice / exponent} KLAY
               </div>
               <Table bordered responsive>
                 <thead>

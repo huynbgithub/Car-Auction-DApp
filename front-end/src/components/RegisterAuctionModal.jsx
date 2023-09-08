@@ -40,9 +40,9 @@ const RegisterAuctionModal = (props) => {
             quantity: Yup.number()
                 .min(
                     nearestUnwithdrawedAuctionRound == null || (nearestUnwithdrawedAuctionRound).isWithdrawed
-                        ? (Number(props.startingPrice) / exponent)
+                        ? (props.startingPrice / exponent)
                         : (Math.round(
-                            (Number((nearestUnwithdrawedAuctionRound).quantity)
+                            ((nearestUnwithdrawedAuctionRound).quantity
                                 / exponent + 0.1 + Number.EPSILON) * 100)) / 100,
                     nearestUnwithdrawedAuctionRound == null || (nearestUnwithdrawedAuctionRound).isWithdrawed
                         ? 'The quantity must equal or exceed the starting price'
@@ -115,11 +115,11 @@ const RegisterAuctionModal = (props) => {
                         <div>
                             {nearestUnwithdrawedAuctionRound == null || (nearestUnwithdrawedAuctionRound).isWithdrawed
                                 ? <div>
-                                    <b>Starting Price: </b> {Number(props.startingPrice) / exponent} KLAY
+                                    <b>Starting Price: </b> {props.startingPrice / exponent} KLAY
                                 </div>
                                 :
                                 <div>
-                                    <b>Previous Quantity: </b> {(Number((nearestUnwithdrawedAuctionRound).quantity)) / exponent} KLAY
+                                    <b>Previous Quantity: </b> {((nearestUnwithdrawedAuctionRound).quantity) / exponent} KLAY
                                 </div>
                             }
 

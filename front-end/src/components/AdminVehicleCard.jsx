@@ -37,7 +37,7 @@ const AdminVehicleCard = (props) => {
                                     <div className='me-2'>Status:</div>
                                     <ApprovalStatus className='mb-2' type={approved} />
                                 </div>
-                                <div>Starting Price: {Number(props.data.startingPrice) / exponent} KLAY</div>
+                                <div>Starting Price: {props.data.startingPrice / exponent} KLAY</div>
                             </Card.Text>
                             <Button onClick={() => navigate(`/detail/${props.data.address}`)} variant="outline-success" className="float-end">Detail</Button>
                         </Card.Body>

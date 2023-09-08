@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { getDeployedVehicleDatas } from '../contracts/VehicleFactoryContract'
 import { Web3Context } from "../App";
-import AdminVehicleCard from '../components/AllVehicleCard'
+import AdminVehicleCard from '../components/AdminVehicleCard'
 import NotificationAlert from '../components/NotificationAlert'
 
 export default function Admin() {
@@ -35,9 +35,7 @@ export default function Admin() {
                     ref={notificationRef}
                 />
                 {cars && cars.map((car, index) => (
-                    <div className="col-3 mt-3" key={index}>
-                        <AdminVehicleCard data={car} />
-                    </div>
+                    <AdminVehicleCard data={car} />
                 ))}
             </div>
         </div>

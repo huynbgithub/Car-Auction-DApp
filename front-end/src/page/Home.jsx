@@ -59,11 +59,9 @@ export default function Home() {
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
-                {cars && cars.map((car, index) => (
+                {cars && cars.map((car) => (
                     (car.isStart == filter &&
-                        <div className="col-3 mt-3" key={index}>
-                            <AllVehicleCard data={car} />
-                        </div>
+                        <AllVehicleCard data={car} />
                     )
                 ))}
             </div>

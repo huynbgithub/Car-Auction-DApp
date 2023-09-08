@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getAuctionRounds, getIsOwner, getOwner, getVehicleData, submitAuction, withdrawAuctionRound, approveVehicle, getIsApproved } from '../contracts/VehicleContract'
-import { AuctionRound, VehicleData } from '../utils/ParseUtils'
-import { Carousel, Col, Row, Image, Container, ListGroup, InputGroup, Form, FloatingLabel, Button, Table } from 'react-bootstrap'
+import { Carousel, Col, Row, Image, Container, ListGroup, Button, Table } from 'react-bootstrap'
 import { AuctionStatus, ApprovalStatus, ScopeReference } from '../components/Utils'
-import Web3, { Address } from 'web3'
 import { exponent } from '../utils/Constants'
 import { Web3Context } from '../App'
 import { BsFillPersonVcardFill, BsCoin } from 'react-icons/bs'
@@ -45,7 +43,7 @@ const Detail = () => {
       }
       handleEffect()
     }
-  }, [account])
+  }, [])
 
   const renderImages = () => {
     const images = []

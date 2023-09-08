@@ -10,9 +10,8 @@ import RegisterAuctionModal from '../components/RegisterAuctionModal'
 import NotificationAlert from '../components/NotificationAlert'
 
 const Detail = () => {
-  const { web3, setWeb3 } = useContext(Web3Context);
-  const { account, setAccount } = useContext(Web3Context);
-  const { balance, setBalance } = useContext(Web3Context);
+  const { web3 } = useContext(Web3Context);
+  const { account } = useContext(Web3Context);
 
   const { address } = useParams()
   const [data, setData] = useState(null)
@@ -124,7 +123,7 @@ const Detail = () => {
                     setAuctionRounds={setAuctionRounds}
                     className='me-3' />
 
-                  <Button variant='outline-danger'
+                  <Button variant='outline-danger' disabled={auctionRounds?.length == 0}
                     onClick={async () => {
                       const receipt = await withdrawAuctionRound(
                         web3,
@@ -143,8 +142,7 @@ const Detail = () => {
                       }
                       const auctionRounds = await getAuctionRounds(address)
                       setAuctionRounds(auctionRounds)
-                    }}
-                    disabled={auctionRounds?.length == 0}>
+                    }}>
                     Withdraw </Button>
                 </div>
                 : <div> </div>}

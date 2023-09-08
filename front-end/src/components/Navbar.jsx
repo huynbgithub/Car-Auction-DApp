@@ -13,8 +13,9 @@ export default function Navbar() {
         let provider;
         if (window.ethereum) {
             provider = window.ethereum;
-        } else if (window.web3) {
-            provider = window.web3.currentProvider;
+            // } else 
+            // if (window.web3) {
+            //     provider = window.web3.currentProvider;
         } else {
             console.log("Non-ethereum browser detected. You should install Metamask");
         }

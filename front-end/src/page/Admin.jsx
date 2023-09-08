@@ -26,18 +26,26 @@ export default function Admin() {
 
     return (
         <div className="container-fluid">
-            <div className="container-fluid p-5 bg-light text-danger text-center">
-                <h1>Car Approval Management</h1>
-                <p>Welcome Admin!</p>
-            </div>
-            <div className="mt-3 row">
-                <NotificationAlert
-                    ref={notificationRef}
-                />
-                {cars && cars.map((car, index) => (
-                    <AdminVehicleCard data={car} />
-                ))}
-            </div>
+            {account == "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" ?
+                <div className="container-fluid">
+                    <div className="container-fluid p-5 bg-light text-danger text-center">
+                        <h1>Car Approval Management</h1>
+                        <p>Welcome Admin!</p>
+                    </div>
+                    <div className="mt-3 row">
+                        <NotificationAlert
+                            ref={notificationRef}
+                        />
+                        {cars && cars.map((car, index) => (
+                            <AdminVehicleCard data={car} />
+                        ))}
+                    </div>
+                </div>
+                :
+                <div className="container-fluid p-5 bg-light text-danger text-center">
+                    <h1>You are not admin!</h1>
+                </div>
+            }
         </div>
     );
 };

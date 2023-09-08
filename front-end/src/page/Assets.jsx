@@ -4,7 +4,7 @@ import { getOwnedDeployedVehicleDatas } from '../contracts/VehicleFactoryContrac
 import CreateVehicleModal from '../components/CreateVehicleModal'
 import { Link } from "react-router-dom";
 import { Web3Context } from "../App";
-import VehicleCard from '../components/VehicleCard'
+import AssetVehicleCard from '../components/AssetVehicleCard'
 import NotificationAlert from '../components/NotificationAlert'
 
 export default function Assets() {
@@ -39,7 +39,7 @@ export default function Assets() {
                 />
                 {cars && cars.map((car, index) => (
                     <div className="col-3 mt-3" key={index}>
-                        <VehicleCard data={car} />
+                        <AssetVehicleCard data={car} />
                     </div>
                 ))}
             </div>

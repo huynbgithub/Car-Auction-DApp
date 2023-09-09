@@ -42,7 +42,7 @@ const Detail = () => {
       }
       handleEffect()
     }
-  }, [])
+  }, [account])
 
   const renderImages = () => {
     const images = []

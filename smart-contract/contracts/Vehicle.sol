@@ -10,6 +10,7 @@ contract Vehicle is Ownable {
     address public factoryAddress;
 
     bool private isStart;
+    bool public isApproved;
 
     function setStart(bool state) public onlyOwner {
         isStart = state;
@@ -235,6 +236,7 @@ contract Vehicle is Ownable {
         vehicleImages = _vehicleImages;
         auctionRoundsSize = 0;
         isStart = false;
+        isApproved = false;
     }
 
     function getVehicleProperties()

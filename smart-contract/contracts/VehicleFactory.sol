@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
 
+import "hardhat/console.sol"; 
+import "zeppelin-solidity/contracts/ownership/Ownable.sol"; 
+import "@openzeppelin/contracts/utils/Strings.sol";
+
 import "./Vehicle.sol";
 
-contract VehicleFactory {
+contract VehicleFactory is Ownable {
     Vehicle[] public deployedVehicles;
 
     event ReceiveCalled(uint amount);

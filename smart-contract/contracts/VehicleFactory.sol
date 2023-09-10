@@ -47,6 +47,10 @@ contract VehicleFactory {
         return deployedVehicles;
     }
 
+    function isAdmin(address checkAddress) public view {
+        require(checkAddress == owner, "This address is not the owner");
+    }
+
     function getOwnedDeployedVehicles(address ownerAddress) public view returns (Vehicle[] memory) {
         Vehicle[] memory ownedDeployedVehicles = new Vehicle[](deployedVehicles.length);
         uint32 ownedVehicleCount = 0;

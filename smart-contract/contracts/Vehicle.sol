@@ -10,7 +10,14 @@ contract Vehicle is Ownable {
     address public factoryAddress;
 
     bool private isStart;
+
     bool public isApproved;
+
+    function approveVehicle() public {
+        VehicleFactory factory = VehicleFactory(factoryAddress);
+        factory.isAdmin(msg.sender);
+        isApproved = true;
+    }
 
     function setStart(bool state) public onlyOwner {
         isStart = state;

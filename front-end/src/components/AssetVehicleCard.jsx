@@ -42,10 +42,7 @@ const AssetVehicleCard = (props) => {
             <Card.Body>
                 <Card.Title> <ScopeReference hexString={props.data.address} type='address' /></Card.Title>
                 <Card.Text>
-                    <div className='d-flex'>
-                        <div className='me-2'>Status:</div>
-                        <ApprovalStatus className='mb-1' type={approved} />
-                    </div>
+                    <ApprovalStatus className='mb-1' type={approved} />
                     <div className='d-flex'>
                         <div className='me-2'> Start Auction: </div>
                         <Form.Check // prettier-ignore

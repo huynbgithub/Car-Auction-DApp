@@ -38,10 +38,7 @@ const AllVehicleCard = (props) => {
                         <Card.Body>
                             <Card.Title> <ScopeReference hexString={props.data.address} type='address' /></Card.Title>
                             <Card.Text>
-                                <div className='d-flex'>
-                                    <div className='me-1'>Auction Status:</div>
-                                    <AuctionStatus className='' type={props.data.isStart} />
-                                </div>
+                                <AuctionStatus className='' type={props.data.isStart} />
                                 <div className='mb-1'>License Plate: {props.data.props.licensePlate}</div>
                                 <div className='mb-1'>Starting Price: {Number(props.data.startingPrice) / exponent} KLAY</div>
                             </Card.Text>

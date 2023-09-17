@@ -33,10 +33,7 @@ const AdminVehicleCard = (props) => {
                         <Card.Body>
                             <Card.Title> <ScopeReference hexString={props.data.address} type='address' /></Card.Title>
                             <Card.Text>
-                                <div className='d-flex'>
-                                    <div className='me-2'>Status:</div>
-                                    <ApprovalStatus className='mb-2' type={approved} />
-                                </div>
+                                <ApprovalStatus className='mb-2' type={approved} />
                                 <div>Starting Price: {props.data.startingPrice / exponent} KLAY</div>
                             </Card.Text>
                             <Button onClick={() => navigate(`/detail/${props.data.address}`)} variant="outline-success" className="float-end">Detail</Button>

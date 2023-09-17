@@ -126,10 +126,10 @@ const RegisterAuctionModal = (props) => {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="outline-danger" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" type="submit">
+                        <Button variant="danger" type="submit">
                             Submit
                         </Button>
                     </Modal.Footer>

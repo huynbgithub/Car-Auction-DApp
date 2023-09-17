@@ -147,7 +147,7 @@ const Detail = () => {
                 </div>
                 : <div> </div>}
               {account != "0x39c4fBD15e23dFc8e4d3920fb3Ff2d28DA21215D" && isOwner && data?.isStart ? <div className='d-flex float-end'>
-                <Button variant='primary'
+                <Button variant='danger'
                   onClick={async () => {
                     const receipt = await submitAuction(
                       web3,

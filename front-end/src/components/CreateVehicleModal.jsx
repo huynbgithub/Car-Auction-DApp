@@ -138,7 +138,7 @@ const CreateVehicleModal = () => {
     }
     return (
         <div className='w-100 mb-3'>
-            <Button className='btn btn-success float-end' onClick={handleShow}>
+            <Button variant='danger' className='btn float-end' onClick={handleShow}>
                 Create New Vehicle
             </Button>
             <Modal show={show} onHide={handleClose} dialogClassName="modal-lg">

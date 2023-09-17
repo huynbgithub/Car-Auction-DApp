@@ -55,7 +55,7 @@ const AssetVehicleCard = (props) => {
                     </div>
                     <div>Starting Price: {props.data.startingPrice / exponent} KLAY</div>
                 </Card.Text>
-                <Button onClick={() => navigate(`/detail/${props.data.address}`)} variant="outline-success" className="float-end"> Detail </Button>
+                <Button onClick={() => navigate(`/detail/${props.data.address}`)} variant="outline-danger" className="float-end"> Detail </Button>
             </Card.Body>
         </Card>
     )

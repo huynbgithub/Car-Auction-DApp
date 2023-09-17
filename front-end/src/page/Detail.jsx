@@ -209,10 +209,9 @@ const Detail = () => {
                 type='address' />
 
             </div>
-
+       
             <ApprovalStatus className='mb-2' type={approved} />
             <AuctionStatus className='mb-2' type={data?.isStart} />
-
             {
               owner != null ? <div className='mb-3 d-flex text-align-center'> <BsFillPersonVcardFill size={24} className='me-2' /> <ScopeReference
                 hexString={owner}

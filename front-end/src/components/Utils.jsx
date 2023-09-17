@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert } from 'react-bootstrap'
-import { BsFillPatchCheckFill, BsFillPatchExclamationFill } from 'react-icons/bs'
+import { BsFillPatchCheckFill, BsFillPatchExclamationFill,
+    BsFillBookmarkCheckFill, BsFillBookmarkXFill } from 'react-icons/bs'
 
 export const ScopeReference = (props) => {
     const url = props.type === 'address'
@@ -26,8 +27,8 @@ export const AuctionStatus = (props) => {
 export const ApprovalStatus = (props) => {
     return (
         <div style={{ color: props.type ? 'green' : 'red' }} className={props.className + ' d-flex align-items-center'}>
-            {props.type ? <BsFillPatchCheckFill className='me-1' size={24} /> : <BsFillPatchExclamationFill className='me-1' size={24} />}
-            {props.type ? 'Admin Approved' : 'Not Approved By Admin'}
+            {props.type ? <BsFillBookmarkCheckFill className='me-1' size={24} /> : <BsFillBookmarkXFill className='me-1' size={24} />}
+            {props.type ? 'Approved' : 'Not Approved'}
         </div>
     )
 }

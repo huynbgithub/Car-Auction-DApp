@@ -83,7 +83,7 @@ const RegisterAuctionModal = (props) => {
 
     return (
         <div className={props.className}>
-            <Button variant='success' onClick={handleShow}>
+            <Button variant='danger' onClick={handleShow}>
                 Register
             </Button>
             <Modal show={show} onHide={handleClose}>

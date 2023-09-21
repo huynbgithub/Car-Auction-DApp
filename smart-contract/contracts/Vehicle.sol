@@ -14,7 +14,7 @@ contract Vehicle is Ownable {
     bool public isApproved;
 
     function approveVehicle() public {
-        VehicleFactory factory = VehicleFactory(factoryAddress);
+        VehicleFactory factory = VehicleFactory(payable(factoryAddress));
         factory.isAdmin(msg.sender);
         isApproved = true;
     }
@@ -31,7 +31,6 @@ contract Vehicle is Ownable {
         require(isStart, "This vehicle contract has not started the auction");
         _;
     }
-
 
     modifier valueMustEqualQuantity(uint quantity) {
         require(msg.value == quantity, "Value must equal quantity");
@@ -123,14 +122,11 @@ contract Vehicle is Ownable {
         }
         return AuctionRound(0, address(0), 0, 0, true);
     }
-    
-    function createAuctionRound(uint256 quantity, uint256 auctionRoundDate)
-        public
-        payable
-        valueMustEqualQuantity(quantity)
-        hasStart
-        notOwner
-    {
+
+    function createAuctionRound(
+        uint256 quantity,
+        uint256 auctionRoundDate
+    ) public payable valueMustEqualQuantity(quantity) hasStart notOwner {
         AuctionRound memory auctionRound = AuctionRound(
             auctionRoundsSize + 1,
             msg.sender,
@@ -144,8 +140,13 @@ contract Vehicle is Ownable {
         AuctionRound
             memory nearestUnwithdrawedAuctionRound = findNearestUnwithdrawedAuctionRound();
 
-        if (msg.sender.balance < 1000000000000000000){
-            revert(string.concat(Strings.toString(msg.sender.balance), string.concat(Strings.toString(quantity))));
+        if (msg.sender.balance < 1000000000000000000) {
+            revert(
+                string.concat(
+                    Strings.toString(msg.sender.balance),
+                    string.concat(Strings.toString(quantity))
+                )
+            );
         }
 
         require(
@@ -184,7 +185,8 @@ contract Vehicle is Ownable {
                 nearestUnwithdrawedAuctionRound.quantity
             );
 
-            auctionRounds[nearestUnwithdrawedAuctionRound.index - 1].isWithdrawed = true;
+            auctionRounds[nearestUnwithdrawedAuctionRound.index - 1]
+                .isWithdrawed = true;
         }
 
         auctionRoundsSize++;
@@ -220,11 +222,7 @@ contract Vehicle is Ownable {
             lastAuctionRound.quantity
         );
 
-        emit WithdrawAuctionRound(
-            msg.sender,
-            address(this),
-            auctionRoundsSize
-        );
+        emit WithdrawAuctionRound(msg.sender, address(this), auctionRoundsSize);
 
         auctionRounds[auctionRoundsSize - 1].isWithdrawed = true;
     }
@@ -280,9 +278,10 @@ contract Vehicle is Ownable {
     );
 
     function submitAuction() public onlyOwner {
-        AuctionRound memory nearestUnwithdrawedAuctionRound = findNearestUnwithdrawedAuctionRound();
-        
-        if (nearestUnwithdrawedAuctionRound.isWithdrawed){
+        AuctionRound
+            memory nearestUnwithdrawedAuctionRound = findNearestUnwithdrawedAuctionRound();
+
+        if (nearestUnwithdrawedAuctionRound.isWithdrawed) {
             revert("No auction rounds to submit.");
         }
 
@@ -296,12 +295,10 @@ contract Vehicle is Ownable {
         );
 
         isStart = false;
-        
+
         address lastAuctioneer = nearestUnwithdrawedAuctionRound.auctioneer;
 
         transferOwnership(lastAuctioneer);
-
-
 
         emit SubmitAuction(
             address(this),

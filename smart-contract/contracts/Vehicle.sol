@@ -95,6 +95,7 @@ contract Vehicle is Ownable {
         auctionRoundsSize--;
     }
 
+    // event Bid(
     event CreateAuctionRound(
         address indexed auctioneerAddress,
         address indexed vehicleContractAddress,
@@ -123,6 +124,7 @@ contract Vehicle is Ownable {
         return AuctionRound(0, address(0), 0, 0, true);
     }
 
+    // function bid(
     function createAuctionRound(
         uint256 quantity,
         uint256 auctionRoundDate
@@ -165,6 +167,7 @@ contract Vehicle is Ownable {
 
         payable(factoryAddress).transfer(msg.value);
 
+        // emit Bid(
         emit CreateAuctionRound(
             msg.sender,
             address(this),

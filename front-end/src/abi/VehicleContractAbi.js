@@ -138,6 +138,7 @@ const abi = [
             }
         ],
         "name": "CreateAuctionRound",
+        //"name": "Bid",
         "type": "event"
     },
     {
@@ -243,6 +244,7 @@ const abi = [
             }
         ],
         "name": "createAuctionRound",
+        // "name": "bid",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"

@@ -7,6 +7,7 @@ import { exponent } from '../utils/Constants'
 import { Web3Context } from '../App'
 import { ScopeReference } from './Utils'
 import { createAuctionRound, findNearestUnwithdrawedAuctionRound, getAuctionRounds } from '../contracts/VehicleContract'
+// import { bid, findNearestUnwithdrawedAuctionRound, getAuctionRounds } from '../contracts/VehicleContract'
 
 const RegisterAuctionModal = (props) => {
     const { web3, setWeb3 } = useContext(Web3Context);
@@ -55,6 +56,7 @@ const RegisterAuctionModal = (props) => {
             const handleSubmit = async () => {
 
                 const date = new Date().getTime()
+                // const receipt = await bid(
                 const receipt = await createAuctionRound(
                     web3,
                     props.contractAddress,

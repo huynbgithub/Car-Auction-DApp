@@ -64,6 +64,7 @@ export const setStart = async (
     }
 }
 
+// export const bid = async (
 export const createAuctionRound = async (
     web3,
     contractAddress,
@@ -72,6 +73,7 @@ export const createAuctionRound = async (
     auctionRoundDate
 ) => {
     try {
+        // const data = getVehicleContract(web3, contractAddress).methods.bid(
         const data = getVehicleContract(web3, contractAddress).methods.createAuctionRound(
             quantity,
             auctionRoundDate

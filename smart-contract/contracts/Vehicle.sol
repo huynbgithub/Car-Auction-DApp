@@ -19,6 +19,10 @@ contract Vehicle is Ownable {
         isApproved = true;
     }
 
+    function isOwner(address checkAddress) public view returns (bool) {
+        return (checkAddress == owner);
+    }
+
     function setStart(bool state) public onlyOwner {
         isStart = state;
     }

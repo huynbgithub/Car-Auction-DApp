@@ -1,7 +1,7 @@
 import Web3, { Address, Transaction, TransactionReceipt } from 'web3'
 import abi from '../abi/VehicleContractAbi'
 import { gas, gasPrice } from '../utils/Constants'
-import { AuctionRound, VehicleData, parseAuctionRound, parseVehicleData } from '../utils/ParseUtils.js'
+import { Bid, VehicleData, parseBid, parseVehicleData } from '../utils/ParseUtils.js'
 import { getHttpWeb3 } from './Web3Utils'
 
 const getVehicleContract = (web3, contractAddress) => {
@@ -64,19 +64,17 @@ export const setStart = async (
     }
 }
 
-// export const bid = async (
-export const createAuctionRound = async (
+export const createBid = async (
     web3,
     contractAddress,
     fromAddress,
     quantity,
-    auctionRoundDate
+    bidDate
 ) => {
     try {
-        // const data = getVehicleContract(web3, contractAddress).methods.bid(
-        const data = getVehicleContract(web3, contractAddress).methods.createAuctionRound(
+        const data = getVehicleContract(web3, contractAddress).methods.createBid(
             quantity,
-            auctionRoundDate
+            bidDate
         ).encodeABI()
 
         console.log(data)
@@ -94,13 +92,13 @@ export const createAuctionRound = async (
     }
 }
 
-export const withdrawAuctionRound = async (
+export const withdrawBid = async (
     web3,
     contractAddress,
     fromAddress
 ) => {
     try {
-        const data = getVehicleContract(web3, contractAddress).methods.withdrawAuctionRound(
+        const data = getVehicleContract(web3, contractAddress).methods.withdrawBid(
         ).encodeABI()
 
         console.log(data)
@@ -151,12 +149,12 @@ export const getVehicleData = async (
     }
 }
 
-export const getAuctionRounds = async (
+export const getBids = async (
     vehicleAddress
 ) => {
     try {
-        const datas = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.getAuctionRounds().call()
-        return datas.map(data => parseAuctionRound(data))
+        const datas = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.getBids().call()
+        return datas.map(data => parseBid(data))
     } catch (e) {
         console.log(e)
     }
@@ -185,12 +183,12 @@ export const getOwner = async (
     }
 }
 
-export const findNearestUnwithdrawedAuctionRound = async (
+export const findNearestUnwithdrawedBid = async (
     vehicleAddress
 ) => {
     try {
-        const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.findNearestUnwithdrawedAuctionRound().call()
-        return parseAuctionRound(data)
+        const data = await getVehicleContract(getHttpWeb3(), vehicleAddress).methods.findNearestUnwithdrawedBid().call()
+        return parseBid(data)
     } catch (e) {
         console.log(e)
     }

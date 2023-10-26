@@ -100,7 +100,7 @@ const abi = [
             {
                 "indexed": true,
                 "internalType": "address",
-                "name": "auctioneerAddress",
+                "name": "bidderAddress",
                 "type": "address"
             },
             {

@@ -22,11 +22,11 @@ export const parseVehicleData = (data) => {
     }
 }
 
-export const parseAuctionRound = (data) => {
+export const parseBid = (data) => {
     return {
         index: Number(data.index),
-        auctioneer: data.auctioneer.toString(),
-        auctionRoundDate: data.auctionRoundDate.toString(),
+        bidder: data.bidder.toString(),
+        bidDate: data.bidDate.toString(),
         quantity: data.quantity.toString(),
         isWithdrawed: data.isWithdrawed
     }

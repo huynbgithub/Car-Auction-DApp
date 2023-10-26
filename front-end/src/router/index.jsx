@@ -45,11 +45,8 @@ const publicRoute = [
         restrict: true,
     },
 ];
-// const adminRoute = [];
-// const employeeRoute = [];
 
 const RouterComponent = () => {
-    // useAutoLogout(jwt);
     return (
         <BrowserRouter>
             <Routes>
@@ -68,39 +65,6 @@ const RouterComponent = () => {
                         ))}
                     </Route>
                 </Route>
-                {/* <Route exact element={<EmployeeRoute />}>
-                    <Route exact element={<LayoutComponent />}>
-                        {employeeRoute.map((route) => (
-                            <Route
-                                index={route.index}
-                                key={route.path}
-                                path={route.path}
-                                element={route.component}
-                                exact={route.exact}
-                                restrict={route.restrict}
-                            />
-                        ))}
-                    </Route>
-                </Route>
-                <Route exact element={<AdminRoute />}>
-                    <Route exact element={<AdminLayout />}>
-                        {adminRoute.map((route) => (
-                            <Route
-                                index={route.index}
-                                key={route.path}
-                                path={route.path}
-                                element={route.component}
-                                exact={route.exact}
-                                restrict={route.restrict}
-                            />
-                        ))}
-                    </Route>
-                </Route>
-                <Route path="/payment/result" element={<Payment />} />
-
-                <Route path="/404" element={<ErrorPage />} />
-                <Route path="/403" element={<Error403Page />} />
-                <Route path="*" element={<ErrorPage />} /> */}
             </Routes>
         </BrowserRouter>
     );

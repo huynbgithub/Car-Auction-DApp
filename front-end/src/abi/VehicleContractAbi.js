@@ -96,11 +96,11 @@ const abi = [
         "inputs": [
             {
                 "internalType": "address",
-                "name": "auctioneer",
+                "name": "bidder",
                 "type": "address"
             }
         ],
-        "name": "AuctionRoundNotFoundException",
+        "name": "BidNotFoundException",
         "type": "error"
     },
     {
@@ -109,7 +109,7 @@ const abi = [
             {
                 "indexed": true,
                 "internalType": "address",
-                "name": "auctioneerAddress",
+                "name": "bidderAddress",
                 "type": "address"
             },
             {
@@ -137,8 +137,7 @@ const abi = [
                 "type": "uint256"
             }
         ],
-        "name": "CreateAuctionRound",
-        //"name": "Bid",
+        "name": "CreateBid",
         "type": "event"
     },
     {
@@ -191,7 +190,7 @@ const abi = [
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "auctionRoundPrice",
+                "name": "bidPrice",
                 "type": "uint256"
             }
         ],
@@ -204,7 +203,7 @@ const abi = [
             {
                 "indexed": true,
                 "internalType": "address",
-                "name": "auctioneerAddress",
+                "name": "bidderAddress",
                 "type": "address"
             },
             {
@@ -220,7 +219,7 @@ const abi = [
                 "type": "uint32"
             }
         ],
-        "name": "WithdrawAuctionRound",
+        "name": "WithdrawBid",
         "type": "event"
     },
     {
@@ -239,12 +238,11 @@ const abi = [
             },
             {
                 "internalType": "uint256",
-                "name": "auctionRoundDate",
+                "name": "bidDate",
                 "type": "uint256"
             }
         ],
-        "name": "createAuctionRound",
-        // "name": "bid",
+        "name": "createBid",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"
@@ -264,7 +262,7 @@ const abi = [
     },
     {
         "inputs": [],
-        "name": "findNearestUnwithdrawedAuctionRound",
+        "name": "findNearestUnwithdrawedBid",
         "outputs": [
             {
                 "components": [
@@ -275,7 +273,7 @@ const abi = [
                     },
                     {
                         "internalType": "address",
-                        "name": "auctioneer",
+                        "name": "bidder",
                         "type": "address"
                     },
                     {
@@ -285,7 +283,7 @@ const abi = [
                     },
                     {
                         "internalType": "uint256",
-                        "name": "auctionRoundDate",
+                        "name": "bidDate",
                         "type": "uint256"
                     },
                     {
@@ -294,7 +292,7 @@ const abi = [
                         "type": "bool"
                     }
                 ],
-                "internalType": "struct Vehicle.AuctionRound",
+                "internalType": "struct Vehicle.Bid",
                 "name": "",
                 "type": "tuple"
             }
@@ -304,7 +302,7 @@ const abi = [
     },
     {
         "inputs": [],
-        "name": "getAuctionRounds",
+        "name": "getBids",
         "outputs": [
             {
                 "components": [
@@ -315,7 +313,7 @@ const abi = [
                     },
                     {
                         "internalType": "address",
-                        "name": "auctioneer",
+                        "name": "bidder",
                         "type": "address"
                     },
                     {
@@ -325,7 +323,7 @@ const abi = [
                     },
                     {
                         "internalType": "uint256",
-                        "name": "auctionRoundDate",
+                        "name": "bidDate",
                         "type": "uint256"
                     },
                     {
@@ -334,7 +332,7 @@ const abi = [
                         "type": "bool"
                     }
                 ],
-                "internalType": "struct Vehicle.AuctionRound[]",
+                "internalType": "struct Vehicle.Bid[]",
                 "name": "",
                 "type": "tuple[]"
             }
@@ -344,7 +342,7 @@ const abi = [
     },
     {
         "inputs": [],
-        "name": "getAuctionRoundsSize",
+        "name": "getBidsSize",
         "outputs": [
             {
                 "internalType": "uint32",
@@ -668,7 +666,7 @@ const abi = [
     },
     {
         "inputs": [],
-        "name": "withdrawAuctionRound",
+        "name": "withdrawBid",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

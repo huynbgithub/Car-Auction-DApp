@@ -1,0 +1,701 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "ownerAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "contractAddress",
+						"type": "address"
+					}
+				],
+				"name": "CreateVehicle",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipRenounced",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "oldOwnerAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwnerAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "vehicleContractAddress",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "quantity",
+						"type": "uint256"
+					}
+				],
+				"name": "PayForOwner",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "ReceiveCalled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "bidderAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "vehicleContractAddress",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint32",
+						"name": "index",
+						"type": "uint32"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "quantity",
+						"type": "uint256"
+					}
+				],
+				"name": "RefundToAuctioneer",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "ownerFullName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "ownerAddress",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "brand",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "vehicleType",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "color",
+								"type": "string"
+							},
+							{
+								"internalType": "uint16",
+								"name": "seatCapacity",
+								"type": "uint16"
+							},
+							{
+								"internalType": "string",
+								"name": "origin",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "licensePlate",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "engineNumber",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "chassisNumber",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "modelCode",
+								"type": "string"
+							},
+							{
+								"internalType": "uint32",
+								"name": "capacity",
+								"type": "uint32"
+							},
+							{
+								"internalType": "uint256",
+								"name": "firstRegistrationDate",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct VehicleProperties",
+						"name": "_props",
+						"type": "tuple"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_startingPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string[]",
+						"name": "_vehicleImages",
+						"type": "string[]"
+					}
+				],
+				"name": "createVehicle",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "deployedVehicles",
+				"outputs": [
+					{
+						"internalType": "contract Vehicle",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDeployedVehicleDatas",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "bool",
+								"name": "isStart",
+								"type": "bool"
+							},
+							{
+								"internalType": "address",
+								"name": "vehicleAddress",
+								"type": "address"
+							},
+							{
+								"components": [
+									{
+										"internalType": "string",
+										"name": "ownerFullName",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "ownerAddress",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "brand",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "vehicleType",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "color",
+										"type": "string"
+									},
+									{
+										"internalType": "uint16",
+										"name": "seatCapacity",
+										"type": "uint16"
+									},
+									{
+										"internalType": "string",
+										"name": "origin",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "licensePlate",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "engineNumber",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "chassisNumber",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "modelCode",
+										"type": "string"
+									},
+									{
+										"internalType": "uint32",
+										"name": "capacity",
+										"type": "uint32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "firstRegistrationDate",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct VehicleProperties",
+								"name": "props",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "startingPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string[]",
+								"name": "vehicleImages",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct VehicleData[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDeployedVehicles",
+				"outputs": [
+					{
+						"internalType": "contract Vehicle[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "ownerAddress",
+						"type": "address"
+					}
+				],
+				"name": "getOwnedDeployedVehicleDatas",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "bool",
+								"name": "isStart",
+								"type": "bool"
+							},
+							{
+								"internalType": "address",
+								"name": "vehicleAddress",
+								"type": "address"
+							},
+							{
+								"components": [
+									{
+										"internalType": "string",
+										"name": "ownerFullName",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "ownerAddress",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "brand",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "vehicleType",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "color",
+										"type": "string"
+									},
+									{
+										"internalType": "uint16",
+										"name": "seatCapacity",
+										"type": "uint16"
+									},
+									{
+										"internalType": "string",
+										"name": "origin",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "licensePlate",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "engineNumber",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "chassisNumber",
+										"type": "string"
+									},
+									{
+										"internalType": "string",
+										"name": "modelCode",
+										"type": "string"
+									},
+									{
+										"internalType": "uint32",
+										"name": "capacity",
+										"type": "uint32"
+									},
+									{
+										"internalType": "uint256",
+										"name": "firstRegistrationDate",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct VehicleProperties",
+								"name": "props",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "startingPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string[]",
+								"name": "vehicleImages",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct VehicleData[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "ownerAddress",
+						"type": "address"
+					}
+				],
+				"name": "getOwnedDeployedVehicles",
+				"outputs": [
+					{
+						"internalType": "contract Vehicle[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "checkAddress",
+						"type": "address"
+					}
+				],
+				"name": "isAdmin",
+				"outputs": [],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "oldOwnerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "newOwnerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "vehicleContractAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "quantity",
+						"type": "uint256"
+					}
+				],
+				"name": "payForOwner",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "previousAuctioneer",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "vehicleContractAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint32",
+						"name": "index",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "quantity",
+						"type": "uint256"
+					}
+				],
+				"name": "refundToAuctioneer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"renounceOwnership()": {
+					"details": "Allows the current owner to relinquish control of the contract."
+				},
+				"transferOwnership(address)": {
+					"details": "Allows the current owner to transfer control of the contract to a newOwner.",
+					"params": {
+						"_newOwner": "The address to transfer ownership to."
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"renounceOwnership()": {
+					"notice": "Renouncing to ownership will leave the contract without an owner. It will not be possible to call the functions with the `onlyOwner` modifier anymore."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"VehicleFactory.sol": "VehicleFactory"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/utils/Strings.sol": {
+			"keccak256": "0x55f102ea785d8399c0e58d1108e2d289506dde18abc6db1b7f68c1f9f9bc5792",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6e52e0a7765c943ef14e5bcf11e46e6139fa044be564881378349236bf2e3453",
+				"dweb:/ipfs/QmZEeeXoFPW47amyP35gfzomF9DixqqTEPwzBakv6cZw6i"
+			]
+		},
+		"@openzeppelin/contracts/utils/math/Math.sol": {
+			"keccak256": "0x005ec64c6313f0555d59e278f9a7a5ab2db5bdc72a027f255a37c327af1ec02d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ece9f0b9c8daca08c76b6b5405a6446b6f73b3a15fab7ff56e296cbd4a2c875",
+				"dweb:/ipfs/QmQyRpyPRL5SQuAgj6SHmbir3foX65FJjbVTTQrA2EFg6L"
+			]
+		},
+		"@openzeppelin/contracts/utils/math/SignedMath.sol": {
+			"keccak256": "0x5f7e4076e175393767754387c962926577f1660dd9b810187b9002407656be72",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7d533a1c97cd43a57cd9c465f7ee8dd0e39ae93a8fb8ff8e5303a356b081cdcc",
+				"dweb:/ipfs/QmVBEei6aTnvYNZp2CHYVNKyZS4q1KkjANfY39WVXZXVoT"
+			]
+		},
+		"Vehicle.sol": {
+			"keccak256": "0x1ccc1ce5f21150d417d0c0fc0e2fb9e482eb30ea86bf3e9ac38f43e76f57a7c7",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://16c8946467b2d545e3776fc546a70d0872b0ceea47e0b3f83264545eb1d84c80",
+				"dweb:/ipfs/QmU7JSK8o83oZkstbzgSRQYGPnGTPW2znGaPp1e4w4QWBC"
+			]
+		},
+		"VehicleFactory.sol": {
+			"keccak256": "0x4622c2a75be3158954bd98851547a1d19ef81c485e83b0e055d3337ac70fc832",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://0e29e2b1932e06435515e0de30f52a68eb9707a7c85d66a2117247f830f5d246",
+				"dweb:/ipfs/QmbybxfeNHRPGxm6SJUxdWri3rhMuG8JhnKVEKPSaVEHKb"
+			]
+		},
+		"hardhat/console.sol": {
+			"keccak256": "0x7434453e6d3b7d0e5d0eb7846ffdbc27f0ccf3b163591263739b628074dc103a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://49355f780520494d1d5a0f01858385e51bb5280ce0ecfb960f16995065dca395",
+				"dweb:/ipfs/QmSwJ6C5QLz6xKeQZS8wbwjU1KxRFTYfwbGmtzisd5sRW4"
+			]
+		},
+		"zeppelin-solidity/contracts/ownership/Ownable.sol": {
+			"keccak256": "0xe36937dad7a387767793e58cc9a663207860f7d5c687fb84805326d01ed87338",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://50e77b553640394c1c95bd1f4f000f3680e8eedf844109f78cb546fe14bb1fe8",
+				"dweb:/ipfs/QmadqwQAwNvJKAFUZ4XuYWDQqD8VutMNRJvj7i7Mxx34sL"
+			]
+		}
+	},
+	"version": 1
+}

@@ -6,8 +6,7 @@ import { BsExclamationCircle } from 'react-icons/bs'
 import { exponent } from '../utils/Constants'
 import { Web3Context } from '../App'
 import { ScopeReference } from './Utils'
-import { createAuctionRound, findNearestUnwithdrawedAuctionRound, getAuctionRounds } from '../contracts/VehicleContract'
-// import { bid, findNearestUnwithdrawedAuctionRound, getAuctionRounds } from '../contracts/VehicleContract'
+import { createBid, findNearestUnwithdrawedBid, getBids } from '../contracts/VehicleContract'
 
 const RegisterAuctionModal = (props) => {
     const { web3, setWeb3 } = useContext(Web3Context);
@@ -15,7 +14,7 @@ const RegisterAuctionModal = (props) => {
     const { balance, setBalance } = useContext(Web3Context);
 
     const [show, setShow] = useState(false)
-    const [nearestUnwithdrawedAuctionRound, setNearestUnwithdrawedAuctionRound] = useState(null)
+    const [nearestUnwithdrawedBid, setNearestUnwithdrawedBid] = useState(null)
     const handleClose = () => setShow(false)
     const handleShow = () => {
         setShow(true)
@@ -25,9 +24,9 @@ const RegisterAuctionModal = (props) => {
     useEffect(() => {
         if (show) {
             const handleEffect = async () => {
-                const nearestUnwithdrawedAuctionRound = await findNearestUnwithdrawedAuctionRound(props.contractAddress)
-                console.log(nearestUnwithdrawedAuctionRound)
-                setNearestUnwithdrawedAuctionRound(nearestUnwithdrawedAuctionRound)
+                const nearestUnwithdrawedBid = await findNearestUnwithdrawedBid(props.contractAddress)
+                console.log(nearestUnwithdrawedBid)
+                setNearestUnwithdrawedBid(nearestUnwithdrawedBid)
             }
             handleEffect()
         }
@@ -40,12 +39,12 @@ const RegisterAuctionModal = (props) => {
         validationSchema: Yup.object({
             quantity: Yup.number()
                 .min(
-                    nearestUnwithdrawedAuctionRound == null || (nearestUnwithdrawedAuctionRound).isWithdrawed
+                    nearestUnwithdrawedBid == null || (nearestUnwithdrawedBid).isWithdrawed
                         ? (props.startingPrice / exponent)
                         : (Math.round(
-                            ((nearestUnwithdrawedAuctionRound).quantity
+                            ((nearestUnwithdrawedBid).quantity
                                 / exponent + 0.1 + Number.EPSILON) * 100)) / 100,
-                    nearestUnwithdrawedAuctionRound == null || (nearestUnwithdrawedAuctionRound).isWithdrawed
+                    nearestUnwithdrawedBid == null || (nearestUnwithdrawedBid).isWithdrawed
                         ? 'The quantity must equal or exceed the starting price'
                         : 'New quantity must be greater than the previous at least 0.1 KLAY'
                 ).max(Math.round((Number(balance) - 0.1) * 100) / 100,
@@ -56,8 +55,7 @@ const RegisterAuctionModal = (props) => {
             const handleSubmit = async () => {
 
                 const date = new Date().getTime()
-                // const receipt = await bid(
-                const receipt = await createAuctionRound(
+                const receipt = await createBid(
                     web3,
                     props.contractAddress,
                     account,
@@ -75,7 +73,7 @@ const RegisterAuctionModal = (props) => {
                 } catch (e) {
                     console.log(e)
                 }
-                props.setAuctionRounds(await getAuctionRounds(props.contractAddress))
+                props.setBids(await getBids(props.contractAddress))
 
                 handleClose()
             }
@@ -115,13 +113,13 @@ const RegisterAuctionModal = (props) => {
                             ) : null}
                         </div>
                         <div>
-                            {nearestUnwithdrawedAuctionRound == null || (nearestUnwithdrawedAuctionRound).isWithdrawed
+                            {nearestUnwithdrawedBid == null || (nearestUnwithdrawedBid).isWithdrawed
                                 ? <div>
                                     <b>Starting Price: </b> {props.startingPrice / exponent} KLAY
                                 </div>
                                 :
                                 <div>
-                                    <b>Previous Quantity: </b> {((nearestUnwithdrawedAuctionRound).quantity) / exponent} KLAY
+                                    <b>Previous Quantity: </b> {((nearestUnwithdrawedBid).quantity) / exponent} KLAY
                                 </div>
                             }
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getAuctionRounds, getIsOwner, getOwner, getVehicleData, submitAuction, withdrawAuctionRound, approveVehicle, getIsApproved } from '../contracts/VehicleContract'
+import { getBids, getIsOwner, getOwner, getVehicleData, submitAuction, withdrawBid, approveVehicle, getIsApproved } from '../contracts/VehicleContract'
 import { Carousel, Col, Row, Image, Container, ListGroup, Button, Table } from 'react-bootstrap'
 import { AuctionStatus, ApprovalStatus, ScopeReference } from '../components/Utils'
 import { exponent } from '../utils/Constants'
@@ -15,7 +15,7 @@ const Detail = () => {
 
   const { address } = useParams()
   const [data, setData] = useState(null)
-  const [auctionRounds, setAuctionRounds] = useState(null)
+  const [bids, setBids] = useState(null)
   const [owner, setOwner] = useState(null)
   const [approved, setApproved] = useState(null)
   const [isOwner, setIsOwner] = useState(true)
@@ -26,8 +26,8 @@ const Detail = () => {
         const data = await getVehicleData(address)
         setData(data)
 
-        const auctionRounds = await getAuctionRounds(address)
-        setAuctionRounds(auctionRounds)
+        const bids = await getBids(address)
+        setBids(bids)
 
         const owner = await getOwner(address)
         setOwner(owner)
@@ -55,13 +55,13 @@ const Detail = () => {
 
   const renderTable = () => {
     const rows = []
-    auctionRounds?.forEach(element =>
+    bids?.forEach(element =>
       rows.push(
         <tr>
           <td> {element.index} </td>
-          <td> <ScopeReference hexString={element.auctioneer} type='address' /> </td>
+          <td> <ScopeReference hexString={element.bidder} type='address' /> </td>
           <td> {element.quantity / exponent} KLAY </td>
-          <td> {new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).format(element.auctionRoundDate)}</td>
+          <td> {new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).format(element.bidDate)}</td>
           <td> {element.isWithdrawed ? 'Yes' : 'No'}</td>
         </tr>
       ))
@@ -99,7 +99,7 @@ const Detail = () => {
                 </thead>
 
                 {
-                  auctionRounds?.length == 0 ?
+                  bids?.length == 0 ?
                     <tbody>
                       <tr>
                         <td colSpan={5} className='text-center'> No matching records found </td>
@@ -118,14 +118,14 @@ const Detail = () => {
                   <RegisterAuctionModal
                     contractAddress={address}
                     enableShow={enableShow}
-                    auctionRounds={auctionRounds}
+                    bids={bids}
                     startingPrice={data.startingPrice}
-                    setAuctionRounds={setAuctionRounds}
+                    setBids={setBids}
                     className='me-3' />
 
-                  <Button variant='outline-danger' disabled={auctionRounds?.length == 0}
+                  <Button variant='outline-danger' disabled={bids?.length == 0}
                     onClick={async () => {
-                      const receipt = await withdrawAuctionRound(
+                      const receipt = await withdrawBid(
                         web3,
                         address,
                         account)
@@ -140,8 +140,8 @@ const Detail = () => {
                       } catch (e) {
                         console.log(e)
                       }
-                      const auctionRounds = await getAuctionRounds(address)
-                      setAuctionRounds(auctionRounds)
+                      const bids = await getBids(address)
+                      setBids(bids)
                     }}>
                     Withdraw </Button>
                 </div>
@@ -171,8 +171,8 @@ const Detail = () => {
                     const owner = await getOwner(address)
                     setOwner(owner)
 
-                    const auctionRounds = await getAuctionRounds(address)
-                    setAuctionRounds(auctionRounds)
+                    const bids = await getBids(address)
+                    setBids(bids)
                   }
                   }
                 > End Auction </Button>
@@ -209,7 +209,6 @@ const Detail = () => {
                 type='address' />
 
             </div>
-       
             <ApprovalStatus className='mb-2' type={approved} />
             <AuctionStatus className='mb-2' type={data?.isStart} />
             {

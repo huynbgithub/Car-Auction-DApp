@@ -91,7 +91,7 @@ const Detail = () => {
                 <thead>
                   <tr>
                     <th>Index</th>
-                    <th>Auctioneer</th>
+                    <th>Bidder</th>
                     <th>Quantity</th>
                     <th>Time</th>
                     <th>Withdrawed</th>

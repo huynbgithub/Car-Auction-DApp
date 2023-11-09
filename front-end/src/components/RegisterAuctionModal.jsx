@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Col, FloatingLabel, Form, InputGroup, Modal, Row } from 'react-bootstrap'
+import { Button, Form, InputGroup, Modal } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { BsExclamationCircle } from 'react-icons/bs'
@@ -9,9 +9,9 @@ import { ScopeReference } from './Utils'
 import { createBid, findNearestUnwithdrawedBid, getBids } from '../contracts/VehicleContract'
 
 const RegisterAuctionModal = (props) => {
-    const { web3, setWeb3 } = useContext(Web3Context);
-    const { account, setAccount } = useContext(Web3Context);
-    const { balance, setBalance } = useContext(Web3Context);
+    const { web3 } = useContext(Web3Context);
+    const { account } = useContext(Web3Context);
+    const { balance } = useContext(Web3Context);
 
     const [show, setShow] = useState(false)
     const [nearestUnwithdrawedBid, setNearestUnwithdrawedBid] = useState(null)

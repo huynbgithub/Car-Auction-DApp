@@ -16,15 +16,8 @@ const CreateVehicleModal = () => {
         formik.resetForm()
     }
 
-    const { web3, setWeb3 } = useContext(Web3Context);
-    const { account, setAccount } = useContext(Web3Context);
-    const { balance, setBalance } = useContext(Web3Context);
-
-    const currentDate = new Date()
-    const year = currentDate.getFullYear().toString()
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
-    const day = currentDate.getDate().toString().padStart(2, '0')
-    const formattedDate = `${year}-${month}-${day}`
+    const { web3 } = useContext(Web3Context);
+    const { account } = useContext(Web3Context);
 
     const formik = useFormik({
         initialValues: {
@@ -40,7 +33,7 @@ const CreateVehicleModal = () => {
             chassisNumber: 'XYZ987654321',
             modelCode: 'M123',
             capacity: 4,
-            firstRegistrationDate: '2023-09-07',
+            firstRegistrationDate: '2023-01-01',
             images: null,
             startingPrice: 1,
         },

@@ -6,9 +6,8 @@ import NotificationAlert from '../components/NotificationAlert'
 
 export default function Admin() {
 
-    const { web3, setWeb3 } = useContext(Web3Context);
-    const { account, setAccount } = useContext(Web3Context);
-    const { balance, setBalance } = useContext(Web3Context);
+    const { web3 } = useContext(Web3Context);
+    const { account } = useContext(Web3Context);
 
     const [cars, setCars] = useState(null);
 

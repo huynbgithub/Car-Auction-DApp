@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Card } from 'react-bootstrap'
 import { exponent } from '../utils/Constants'
-import { Web3Context } from "../App";
 import { useNavigate } from 'react-router-dom'
 import { ScopeReference } from './Utils'
 import { ApprovalStatus } from '../components/Utils'
@@ -9,9 +8,6 @@ import { getIsApproved } from '../contracts/VehicleContract'
 
 const AdminVehicleCard = (props) => {
 
-    const { web3, setWeb3 } = useContext(Web3Context);
-    const { account, setAccount } = useContext(Web3Context);
-    const { balance, setBalance } = useContext(Web3Context);
     const [approved, setApproved] = useState(null)
 
     const navigate = useNavigate()

@@ -1,7 +1,6 @@
-import Web3, { Address, Transaction, TransactionReceipt } from 'web3'
 import abi from '../abi/VehicleFactoryContractAbi'
 import { gas, gasPrice } from '../utils/Constants'
-import { VehicleData, parseVehicleData } from '../utils/ParseUtils.js'
+import { parseVehicleData } from '../utils/ParseUtils.js'
 import { getHttpWeb3 } from './Web3Utils'
 
 const getVehicleFactoryContract = (web3) => {

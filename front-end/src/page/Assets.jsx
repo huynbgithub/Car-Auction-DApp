@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Button, Card, Form } from 'react-bootstrap'
 import { getOwnedDeployedVehicleDatas } from '../contracts/VehicleFactoryContract'
 import CreateVehicleModal from '../components/CreateVehicleModal'
-import { Link } from "react-router-dom";
 import { Web3Context } from "../App";
 import AssetVehicleCard from '../components/AssetVehicleCard'
 import NotificationAlert from '../components/NotificationAlert'
 
 export default function Assets() {
 
-    const { web3, setWeb3 } = useContext(Web3Context);
-    const { account, setAccount } = useContext(Web3Context);
-    const { balance, setBalance } = useContext(Web3Context);
+    const { web3 } = useContext(Web3Context);
+    const { account } = useContext(Web3Context);
 
     const [cars, setCars] = useState(null);
 

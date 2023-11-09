@@ -1,21 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
 import { Web3Context } from "../App";
 
 export default function Navbar() {
 
-    const { web3, setWeb3 } = useContext(Web3Context);
+    const { setWeb3 } = useContext(Web3Context);
     const { account, setAccount } = useContext(Web3Context);
-    const { balance, setBalance } = useContext(Web3Context);
+    const { setBalance } = useContext(Web3Context);
 
     const detectCurrentProvider = () => {
         let provider;
         if (window.ethereum) {
             provider = window.ethereum;
-            // } else 
-            // if (window.web3) {
-            //     provider = window.web3.currentProvider;
         } else {
             console.log("Non-ethereum browser detected. You should install Metamask");
         }

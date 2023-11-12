@@ -3,6 +3,8 @@
 
 [Product Demonstration Video](https://drive.google.com/file/d/1N8cR3FTrwEpts90UBwWiOqQRQXRRl6v2/view?usp=drive_link)
 
+The second version on Solana blockchain is here: [https://github.com/huynbgithub/Solana-Car-Auction-DApp](https://github.com/huynbgithub/Solana-Car-Auction-DApp)
+
 ![Alt text](document/Images/1.png)
 ![Alt text](document/Images/2.png)
 ![Alt text](document/Images/3.png)

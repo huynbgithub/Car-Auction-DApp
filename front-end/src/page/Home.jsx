@@ -29,7 +29,7 @@ export default function Home() {
         <div className="container-fluid">
             <div className="container-fluid p-5 bg-light text-danger text-center">
                 <h1>Car Auction Website</h1>
-                <p>Vietnam Klaytnovators Hackathon 2023</p>
+                <p>Klaytn Blockchain Hackathon 2023</p>
             </div>
             <div className="mt-3 row">
                 <NotificationAlert
